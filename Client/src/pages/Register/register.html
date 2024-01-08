@@ -1,54 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tale-Trail</title>
-    <link rel="stylesheet" href="../../style.css">
-    
-  </head>
-  <body>
-    <main class="min-w-[100vw] min-h-[100vh] flex items-center justify-center">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tale-Trail</title>
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="icon" href="../../../public/logo.png" type="image/x-icon">
+</head>
+
+<body>
+  <main class="min-w-[100vw] min-h-[100vh] flex items-center justify-center">
+
+    <div class="flex flex-col lg:w-[30%] md:w-[50%] w-[80%]  gap-10 items-center justify-center" id="email-verification">
+      <h1 class="text-2xl leading-7">Sign up with email</h1>
+      <span class="text-base leading-7 text-center">Enter your email address to create an account.</span>
+      <form id="email-verification-form" class="flex flex-col items-center w-[100%] gap-5">
+        <label for="email" class="text-sm font-light">Your Email</label>
+        <input type="email" name="email" id="email"
+          class="border-b border-black w-[100%] focus:outline-none text-center" required>
+        <button type="submit" class="bg-black text-white px-5 py-2 rounded-3xl w-[60%]">Continue</button>
+      </form>
+    </div>
+
+    <div class="hidden flex-col lg:w-[30%] md:w-[50%] w-[80%]  gap-10 items-center justify-center" id="otp-verification">
+      <h1 class="text-2xl leading-7">Check your email</h1>
+      <span class="text-base leading-7 text-center">A four digit otp has been sent to your inbox.</span>
+      <form id="otp-verification-form" class="flex flex-col items-center w-[100%] gap-5">
+        <label for="otp" class="text-sm font-light">OTP</label>
+        <input type="number" name="otp" id="otp" class="border-b border-black w-[100%] focus:outline-none text-center"
+          required>
+        <button type="submit" class="bg-black text-white px-5 py-2 rounded-3xl w-[60%]">Continue</button>
+      </form>
+      <button class="text-[#1a8917] hover:text-[#156d12]" id="back-to-email">&lt; Go back</button>
+    </div>
+
+    <div class="hidden flex-col lg:w-[30%] md:w-[50%] w-[80%]  gap-10 items-center justify-center" id="user-registration">
+      <h1 class="text-2xl leading-7">Enter your details</h1>
+      <form id="user-registration-form" class="flex flex-col items-center w-[100%] gap-5">
+        <label for="username" class="text-sm font-light">username</label>
+        <input type="text" name="username" id="username"
+          class="border-b border-black w-[100%] focus:outline-none text-center" required>
+
+        <label for="password" class="text-sm font-light">password</label>
+        <input type="password" name="password" id="password"
+          class="border-b border-black w-[100%] focus:outline-none text-center" required>
+        <span class="hidden text-sm text-red-700" id="invalid-password">Minimum eight characters, at least one letter,
+          one number and one special character.</span>
+
+        <label for="confirm-password" class="text-sm font-light">confirm password</label>
+        <input type="password" name="confirm-password" id="confirm-password"
+          class="border-b border-black w-[100%] focus:outline-none text-center" required>
+        <span class="hidden text-sm text-red-700" id="invalid-confirm-password">Confirm password did not match.</span>
 
 
-      <div class="flex flex-col w-[20%] gap-10 items-center justify-center" id="email-verification">
-        <h1 class="text-2xl leading-7">Sign up with email</h1>
-        <span class="text-base leading-7 text-center">Enter your email address to create an account.</span>
-        <form id="email-verification-form" class="flex flex-col items-center w-[100%] gap-5">
-          <label for="email" class="text-sm font-light">Your Email</label>
-          <input type="email" name="email" id="email" class="border-b border-black w-[100%] focus:outline-none text-center" required>
-          <button type="submit" class="bg-black text-white px-5 py-2 rounded-3xl w-[60%]">Continue</button>
-        </form>
-        </div>
+        <button type="submit" class="bg-black text-white px-5 py-2 rounded-3xl w-[60%]">Submit</button>
+      </form>
+    </div>
 
-        <div class="hidden flex-col w-[20%] gap-10 items-center justify-center" id="otp-verification">
-          <h1 class="text-2xl leading-7">Check your email</h1>
-          <span class="text-base leading-7 text-center">A four digit otp has been sent to your inbox.</span>
-          <form id="otp-verification-form" class="flex flex-col items-center w-[100%] gap-5">
-            <label for="otp" class="text-sm font-light">OTP</label>
-            <input type="number" name="otp" id="otp" class="border-b border-black w-[100%] focus:outline-none text-center" required>
-            <button type="submit" class="bg-black text-white px-5 py-2 rounded-3xl w-[60%]">Continue</button>
-          </form>
-          <button class="text-[#1a8917] hover:text-[#156d12]" id="back-to-email">&lt; Go back</button>
-          </div>
+    <script src="./register.ts" type="module"></script>
+  </main>
+</body>
 
-        <div class="hidden flex-col w-[20%] gap-10 items-center justify-center" id="user-registration">
-          <h1 class="text-2xl leading-7">Enter your details</h1>
-          <form id="user-registration-form" class="flex flex-col items-center w-[100%] gap-5">
-            <label for="username" class="text-sm font-light">username</label>
-            <input type="text" name="username" id="username" class="border-b border-black w-[100%] focus:outline-none text-center" required>
-
-            <label for="password" class="text-sm font-light">password</label>
-            <input type="text" name="password" id="password" class="border-b border-black w-[100%] focus:outline-none text-center" required>
-
-            <label for="confirm-password" class="text-sm font-light">confirm password</label>
-            <input type="text" name="confirm-password" id="confirm-password" class="border-b border-black w-[100%] focus:outline-none text-center" required>
-
-            <button type="submit" class="bg-black text-white px-5 py-2 rounded-3xl w-[60%]">Submit</button>
-          </form>
-          </div>
-
-        <script src="./register.ts" type="module"></script>
-    </main>
-  </body>
 </html>

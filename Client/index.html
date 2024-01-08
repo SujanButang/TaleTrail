@@ -4,10 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./src/style.css" />
+    <link rel="icon" href="logo.png" type="image/x-icon">
     <title>Tale-Trail</title>
   </head>
   <body class="h-[100vh]">
-    <header class="px-32 flex items-center justify-between h-[10%]">
+    <header class="lg:px-32 md:px-20 flex items-center justify-between h-[10%] border-b border-black sticky">
       <figure
         class="flex items-center justify-center m-0 p-0 h-56"
       >
@@ -17,8 +18,8 @@
         <ul
           class="flex items-center gap-10 w-[80%] justify-end text-sm font-light"
         >
-          <li class="cursor-pointer">Write</li>
-          <li class="cursor-pointer">Sign in</li>
+          <li class="cursor-pointer md:flex hidden">Write</li>
+          <li class="cursor-pointer sm:flex hidden">Sign in</li>
           <li class="cursor-pointer">
             <button
               id="register-btn"

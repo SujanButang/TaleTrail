@@ -27,7 +27,7 @@ export const handleVerifyEmail = async (
   try {
     const { email } = req.body;
     const data = await verifyUserEmail(email);
-    res.status(200).json(data);
+    res.status(200).json(data.message);
   } catch (error) {
     console.log(error);
     next(error);

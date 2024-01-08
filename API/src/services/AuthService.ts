@@ -24,12 +24,15 @@ export const verifyUserEmail = async (
 ): Promise<IMessageResponse> => {
   const otp = RandGenerator(1000, 9999);
 
-  sendMail({ email, otp });
   const user = await findUserByEmail(email);
-  if (user) {
+  if (user?.verified == false) {
+    sendMail({ email, otp });
     user.password = otp.toString();
     user.save();
+  } else if (user?.verified) {
+    throw new NotAcceptableError("User already exists! ☹️");
   } else {
+    sendMail({ email, otp });
     await UserModel.create({ email, password: otp });
   }
 
