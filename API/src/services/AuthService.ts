@@ -1,18 +1,17 @@
-import UnauthenticatedError from "../errors/UnauthenticatedError";
 import { UserModel, findUserByEmail } from "../models/UserModel";
 import bcrypt from "bcrypt";
-import RandGenerator from "../utils/RandGenerator";
-import { IUserRegister } from "../interfaces/Auth";
+import RandGenerator from "../utils/randGenerator";
 import {
   ILoginMessageResponse,
   IMessageResponse,
-} from "../interfaces/Response";
-import { sendMail } from "./Nodemailer";
-import NotFoundError from "../errors/NotFoundError";
-import NotAcceptableError from "../errors/NotAcceptableError";
-import BadRequestError from "../errors/BadRequestError";
+} from "../interfaces/responseInterface";
+import { sendMail } from "./nodemailer";
+import NotFoundError from "../errors/notFoundError";
+import NotAcceptableError from "../errors/notAcceptableError";
+import BadRequestError from "../errors/badRequestError";
 import jwt from "jsonwebtoken";
 import { ACCESS_TOKEN_EXPIRY, REFRESH_TOKEN_EXPIRY } from "../constants/jwt";
+import { TokenBlockModel } from "../models/TokenBlockModel";
 
 /**
  * Checks if the provided email already exists. If not, sends a verification email and
@@ -23,14 +22,16 @@ import { ACCESS_TOKEN_EXPIRY, REFRESH_TOKEN_EXPIRY } from "../constants/jwt";
 export const verifyUserEmail = async (
   email: string
 ): Promise<IMessageResponse> => {
-  const user = await findUserByEmail(email);
-  if (user) {
-    throw new UnauthenticatedError("User is already registered!");
-  }
   const otp = RandGenerator(1000, 9999);
 
   sendMail({ email, otp });
-  await UserModel.create({ email, password: otp });
+  const user = await findUserByEmail(email);
+  if (user) {
+    user.password = otp.toString();
+    user.save();
+  } else {
+    await UserModel.create({ email, password: otp });
+  }
 
   return { message: "Verification mail sent succefully! 🎉", status: 200 };
 };
@@ -98,12 +99,23 @@ export const login = async (
   if (!user) throw new NotFoundError("User not found! ☹️");
   const passwordMatch = bcrypt.compareSync(password, user.password);
   if (!passwordMatch) throw new BadRequestError("Invalid Credentials! ☹️");
-  const accessToken = jwt.sign(user.id, process.env.JWT_SECRET as string, {
-    expiresIn: ACCESS_TOKEN_EXPIRY,
-  });
-  const refreshToken = jwt.sign(user.id, process.env.JWT_SECRET as string, {
-    expiresIn: REFRESH_TOKEN_EXPIRY,
-  });
+
+  const accessToken = jwt.sign(
+    { userId: user.id },
+    process.env.JWT_SECRET as string,
+    {
+      expiresIn: ACCESS_TOKEN_EXPIRY,
+    }
+  );
+
+  const refreshToken = jwt.sign(
+    { userId: user.id },
+    process.env.JWT_SECRET as string,
+    {
+      expiresIn: REFRESH_TOKEN_EXPIRY,
+    }
+  );
+
   return {
     message: "User login successful. 🎉",
     status: 200,
@@ -112,4 +124,15 @@ export const login = async (
       refreshToken,
     },
   };
+};
+
+export const logout = async (
+  accessToken: string,
+  refreshToken: string
+): Promise<IMessageResponse> => {
+  await TokenBlockModel.create({
+    access_token: accessToken,
+    refresh_token: refreshToken,
+  });
+  return { message: "User logged out successfully. 🎉", status: 200 };
 };

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/style.css" />
+    <title>Tale-Trail</title>
+  </head>
+  <body class="h-[100vh]">
+    <header class="px-32 flex items-center justify-between h-[10%]">
+      <figure
+        class="flex items-center justify-center m-0 p-0 h-56"
+      >
+        <img src="logo.png" alt="logo" class="h-[100%] w-[100%]">
+      </figure>
+      <nav class="flex items-center justify-center w-[50%]">
+        <ul
+          class="flex items-center gap-10 w-[80%] justify-end text-sm font-light"
+        >
+          <li class="cursor-pointer">Write</li>
+          <li class="cursor-pointer">Sign in</li>
+          <li class="cursor-pointer">
+            <button
+              id="register-btn"
+              class="bg-[#1a8917] py-2 px-3 rounded-3xl text-white hover:bg-[#156d12]"
+            >
+              <a href="./src/pages/Register/register.html"> Get Started </a>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <script type="module" src="./script.ts"></script>
+  </body>
+</html>

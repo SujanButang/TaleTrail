@@ -1,11 +1,11 @@
 import HttpStatus from "http-status-codes";
 import { NextFunction, Request, Response } from "express";
 
-import UnauthenticatedError from "../errors/UnauthenticatedError";
+import UnauthenticatedError from "../errors/unAuthenticatedError";
 
-import loggerWithNameSpace from "../utils/Logger";
-import NotFoundError from "../errors/NotFoundError";
-import NotAcceptableError from "../errors/NotAcceptableError";
+import loggerWithNameSpace from "../utils/logger";
+import NotFoundError from "../errors/notFoundError";
+import NotAcceptableError from "../errors/notAcceptableError";
 
 const logger = loggerWithNameSpace("ErrorHandler");
 

@@ -1,16 +1,17 @@
-import { NextFunction, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import {
   IUserLogin,
   IUserRegister,
   IVerifyEmail,
   IVerifyOTP,
-} from "../interfaces/Auth";
+} from "../interfaces/authInterface";
 import {
   login,
+  logout,
   registerUser,
   verifyOTP,
   verifyUserEmail,
-} from "../services/AuthService";
+} from "../services/authService";
 
 /**
  * Handles the verification of a user's email address.
@@ -74,7 +75,6 @@ export const handleUserRegistration = async (
   }
 };
 
-
 /**
  * Handles the user login process, including authentication and token generation.
  * Sets cookies with access and refresh tokens in the response.
@@ -95,6 +95,28 @@ export const handleUserLogin = async (
       .cookie("accessToken", data.data.accessToken)
       .cookie("refreshToken", data.data.refreshToken)
       .json(data.message);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const handleUserLogout = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { accessToken, refreshToken } = req.cookies;
+    const data = await logout(accessToken, refreshToken);
+    res.clearCookie("accessToken", {
+      secure: true,
+      sameSite: "none",
+    });
+    res.clearCookie("refreshToken", {
+      secure: true,
+      sameSite: "none",
+    });
+    res.status(data.status).json(data.message);
   } catch (error) {
     next(error);
   }

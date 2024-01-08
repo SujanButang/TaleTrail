@@ -1,23 +1,23 @@
-import {createTransport} from "nodemailer"
+import { createTransport } from "nodemailer";
 
 /**
  * Send verification email to the provided email address
- * @param params 
+ * @param params
  */
-export const sendMail = (params:any) => {
-    var transporter = createTransport({
-        service: "gmail",
-        auth: {
-          user: "tale.trail.site@gmail.com",
-          pass: "vwnzxvxivpjtaakl",
-        },
-      });
-    
-      var mailOptions = {
-        from: "tale.trail.site@gmail.com",
-        to: params.email,
-        subject: "Email Verification",
-        html: `<!DOCTYPE html>
+export const sendMail = (params: { email: string; otp: number }) => {
+  const transporter = createTransport({
+    service: "gmail",
+    auth: {
+      user: "tale.trail.site@gmail.com",
+      pass: "vwnzxvxivpjtaakl",
+    },
+  });
+
+  const mailOptions = {
+    from: "tale.trail.site@gmail.com",
+    to: params.email,
+    subject: "Email Verification",
+    html: `<!DOCTYPE html>
         <html lang="en">
         <head>
           <meta charset="UTF-8">
@@ -73,13 +73,13 @@ export const sendMail = (params:any) => {
         </body>
         </html>
         `,
-      };
-    
-      transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log("Email sent: " + info.response);
-        }
-      });
-}
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+  });
+};
