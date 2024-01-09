@@ -8,6 +8,12 @@ interface OptionsConfig {
   hideClass: string;
 }
 
+/**
+ * Creates an option button based on the provided configuration and appends it to the given parent element.
+ * @param config - Configuration for the option button.
+ * @param parent - The parent HTML element to which the option button is appended.
+ * @returns The created option button element.
+ */
 const createOptionButton = (
   config: OptionsConfig,
   parent: HTMLElement
@@ -45,6 +51,12 @@ const createOptionButton = (
   return button;
 };
 
+/**
+ * Handles mouseover and mouseleave events on the options container, showing or hiding options based on configuration.
+ * @param optionsDiv - The container element for options.
+ * @param options - An array of option configurations.
+ * @param parent - The parent HTML element associated with the options.
+ */
 const handleMouseEvents = (
   optionsDiv: HTMLElement,
   options: OptionsConfig[],
@@ -79,16 +91,12 @@ const handleMouseEvents = (
   });
 };
 
+/**
+ * Adds options (buttons) to the provided parent element based on the configuration.
+ * @param parent - The parent HTML element to which options are added.
+ */
 const addOptions = (parent: HTMLElement) => {
   parent.classList.add("relative");
-
-  const existingOptionsBtn: HTMLElement = document.querySelector(
-    "#options-btn"
-  ) as HTMLElement;
-
-  if (existingOptionsBtn) {
-    parent.removeChild(existingOptionsBtn);
-  }
 
   const optionsDiv: HTMLElement = document.createElement("div") as HTMLElement;
   optionsDiv.classList.add(
@@ -150,11 +158,18 @@ const addOptions = (parent: HTMLElement) => {
   parent.appendChild(optionsDiv);
 };
 
+/**
+ * Automatically adjusts the height of a textarea to fit its content.
+ * @param textarea - The textarea element to be auto-expanded.
+ */
 const autoExpand = (textarea: HTMLElement) => {
   textarea.style.height = "auto";
   textarea.style.height = textarea.scrollHeight + "px";
 };
-
+/**
+ * Adds a new textarea element below the current textarea and focuses on it.
+ * @param currentTextarea - The textarea element that triggers the addition of a new textarea.
+ */
 const addNewTextarea = (currentTextarea: HTMLElement) => {
   const newDiv: HTMLElement = document.createElement("div") as HTMLElement;
   newDiv.classList.add("w-full");
@@ -170,13 +185,26 @@ const addNewTextarea = (currentTextarea: HTMLElement) => {
   );
 
   newDiv.appendChild(newTextarea);
-  currentTextarea.parentNode?.parentNode?.appendChild(newDiv);
+
+  // Get the parent node of the current textarea
+  const parentOfCurrentTextarea = currentTextarea.parentNode as HTMLElement;
+
+  // Check if parent node exists, then insert the new div after it using insertAdjacentElement
+  if (parentOfCurrentTextarea) {
+    parentOfCurrentTextarea.insertAdjacentElement("afterend", newDiv);
+  }
+
+  //order the textareas' parent divs
+  orderTextAreas();
 
   // Set focus on the new textarea
   newTextarea.focus();
 };
 
-// Initial setup
+/**
+ * Observes changes in the document to dynamically attach event listeners to new textareas.
+ * This ensures that each newly added textarea receives the necessary setup.
+ */
 const observeDocumentChanges = () => {
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
@@ -196,11 +224,15 @@ const observeDocumentChanges = () => {
   observer.observe(document.body, config);
 };
 
+/**
+ * Handles keyboard events for textareas, focusing on the addition of new textareas on "Enter".
+ * Also defers auto-expanding to the next tick for updated height.
+ * @param event - The keyboard event.
+ */
 const handleTextareaInput = (event: KeyboardEvent) => {
-  event.preventDefault();
   const textarea = event.target as HTMLTextAreaElement;
 
-  if (event.key === "Enter") {
+  if (event.key === "Enter" && textarea.value.trim() !== "") {
     event.preventDefault();
     addNewTextarea(textarea);
   }
@@ -211,6 +243,10 @@ const handleTextareaInput = (event: KeyboardEvent) => {
   });
 };
 
+/**
+ * Sets up the provided textarea with necessary event listeners for focus and keyboard input.
+ * @param textarea - The textarea element to be set up.
+ */
 const setupTextarea = (textarea: HTMLTextAreaElement) => {
   textarea.addEventListener("focusin", (e: Event) => {
     e.preventDefault();
@@ -218,7 +254,8 @@ const setupTextarea = (textarea: HTMLTextAreaElement) => {
   });
 
   textarea.addEventListener("keydown", (event: KeyboardEvent) => {
-    if (event.key === "Enter") {
+    document.querySelector("#options-btn")?.remove();
+    if (event.key === "Enter" && textarea.value.trim() !== "") {
       event.preventDefault();
       addNewTextarea(textarea);
     }
@@ -230,12 +267,28 @@ const setupTextarea = (textarea: HTMLTextAreaElement) => {
   });
 };
 
+/**
+ * Sets up event listeners for all existing textareas on page load.
+ * This ensures that each textarea has the necessary behavior.
+ */
 const setupTextareas = () => {
   const textareas = document.querySelectorAll("textarea");
-  console.log(textareas);
-
   textareas.forEach((textarea) => {
     setupTextarea(textarea);
+  });
+};
+
+/**
+ * Updates the "id" attribute of each textarea's parent element to maintain a consistent order.
+ * The updated "id" is based on the index of the textarea in the document order.
+ */
+const orderTextAreas = () => {
+  const textAreas: HTMLTextAreaElement[] = Array.from(
+    document.querySelectorAll("textarea")
+  );
+
+  textAreas.forEach((textArea, index) => {
+    textArea.parentElement?.setAttribute("id", `text-area-div-${index}`);
   });
 };
 
