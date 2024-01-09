@@ -1,7 +1,7 @@
 import { makeRequest } from "../../axios/axios";
 import { IHTTPError } from "../../interface/httpError";
-import { showToast } from "../../utils/Toast";
-import { toggleClass } from "../../utils/editClass";
+import { showToast } from "../../utils/utils";
+import { toggleClass } from "../../utils/utils";
 
 const emailInput: HTMLInputElement = document.querySelector(
   "#email"
