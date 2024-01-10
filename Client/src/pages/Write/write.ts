@@ -1,5 +1,5 @@
+import axios from "axios";
 import { toggleClass } from "../../utils/utils";
-
 interface OptionsConfig {
   id: string;
   iconSrc: string;
@@ -19,6 +19,7 @@ const createOptionButton = (
   parent: HTMLElement
 ): HTMLElement => {
   const button = document.createElement("div");
+
   button.classList.add(
     "h-10",
     "w-10",
@@ -31,7 +32,7 @@ const createOptionButton = (
     "border-[#1a8917]",
     config.hideClass
   );
-  if (config.id == "add-btn") {
+  if (config.id === "add-btn") {
     button.classList.add("duration-300");
   }
   button.setAttribute("id", config.id);
@@ -46,6 +47,20 @@ const createOptionButton = (
   figure.appendChild(icon);
 
   button.appendChild(figure);
+
+  // Add event listener based on the button id
+  switch (config.id) {
+    case "img-btn":
+      button.addEventListener("click", (e: Event) => {
+        e.preventDefault();
+        handleImageUpload(parent.parentElement as HTMLElement);
+      });
+      break;
+
+    default:
+      break;
+  }
+
   parent.appendChild(button);
 
   return button;
@@ -96,6 +111,7 @@ const handleMouseEvents = (
  * @param parent - The parent HTML element to which options are added.
  */
 const addOptions = (parent: HTMLElement) => {
+  parent.classList.remove("relative");
   parent.classList.add("relative");
 
   const optionsDiv: HTMLElement = document.createElement("div") as HTMLElement;
@@ -168,6 +184,7 @@ const autoExpand = (textarea: HTMLElement) => {
 };
 /**
  * Adds a new textarea element below the current textarea and focuses on it.
+ * Also updates the 'data' array with a new paragraph entry.
  * @param currentTextarea - The textarea element that triggers the addition of a new textarea.
  */
 const addNewTextarea = (currentTextarea: HTMLElement) => {
@@ -196,6 +213,28 @@ const addNewTextarea = (currentTextarea: HTMLElement) => {
 
   //order the textareas' parent divs
   orderTextAreas();
+
+  newTextarea.addEventListener("focusin", (e: Event) => {
+    e.preventDefault();
+    const addOptionBtn = document.querySelector("#options-btn") as HTMLElement;
+    if (!addOptionBtn) {
+      addOptions(newTextarea.parentNode as HTMLElement);
+    }
+  });
+
+  newTextarea.addEventListener("input", (e: Event) => {
+    e.preventDefault();
+    if (newTextarea.value == "") {
+      const addOptionBtn = document.querySelector(
+        "#options-btn"
+      ) as HTMLElement;
+      if (!addOptionBtn) {
+        addOptions(newTextarea.parentNode as HTMLElement);
+      }
+    } else {
+      document.querySelector("#options-btn")?.remove();
+    }
+  });
 
   // Set focus on the new textarea
   newTextarea.focus();
@@ -236,6 +275,12 @@ const handleTextareaInput = (event: KeyboardEvent) => {
     event.preventDefault();
     addNewTextarea(textarea);
   }
+  if (event.key === "Backspace" && textarea.value.trim() == "") {
+    event.preventDefault();
+    if (textarea.parentElement) {
+      removeAndFocusNextTextarea(textarea.parentElement);
+    }
+  }
 
   // Defer autoExpand until the next tick to ensure the height has updated
   setTimeout(() => {
@@ -243,19 +288,45 @@ const handleTextareaInput = (event: KeyboardEvent) => {
   });
 };
 
+const removeAndFocusNextTextarea = (element: HTMLElement | null) => {
+  if (!element) {
+    return;
+  }
+
+  const prevSibling = element.previousSibling as HTMLElement;
+
+  if (prevSibling && prevSibling.firstChild instanceof HTMLTextAreaElement) {
+    element.remove();
+    prevSibling.firstChild.focus();
+  } else {
+    removeAndFocusNextTextarea(prevSibling as HTMLElement);
+  }
+};
+
 /**
  * Sets up the provided textarea with necessary event listeners for focus and keyboard input.
  * @param textarea - The textarea element to be set up.
  */
 const setupTextarea = (textarea: HTMLTextAreaElement) => {
-  textarea.addEventListener("focusin", (e: Event) => {
+  textarea.addEventListener("focus", (e: Event) => {
     e.preventDefault();
-    addOptions(textarea.parentNode as HTMLElement);
+    if (textarea.value == "") {
+      addOptions(textarea.parentNode as HTMLElement);
+    }
+  });
+
+  textarea.addEventListener("input", (e: Event) => {
+    e.preventDefault();
+    if (textarea.value == "") {
+      addOptions(textarea.parentNode as HTMLElement);
+    }
   });
 
   textarea.addEventListener("keydown", (event: KeyboardEvent) => {
-    document.querySelector("#options-btn")?.remove();
-    if (event.key === "Enter" && textarea.value.trim() !== "") {
+    if (textarea.value !== "") {
+      document.querySelector("#options-btn")?.remove();
+    }
+    if (event.key === "Enter" && textarea.value !== "") {
       event.preventDefault();
       addNewTextarea(textarea);
     }
@@ -281,6 +352,7 @@ const setupTextareas = () => {
 /**
  * Updates the "id" attribute of each textarea's parent element to maintain a consistent order.
  * The updated "id" is based on the index of the textarea in the document order.
+ * Also, reorders the 'data' array to match the order of textareas.
  */
 const orderTextAreas = () => {
   const textAreas: HTMLTextAreaElement[] = Array.from(
@@ -288,8 +360,58 @@ const orderTextAreas = () => {
   );
 
   textAreas.forEach((textArea, index) => {
-    textArea.parentElement?.setAttribute("id", `text-area-div-${index}`);
+    const parentElement = textArea.parentElement;
+    if (parentElement) {
+      parentElement.setAttribute("id", `text-area-div-${index}`);
+    }
   });
+};
+
+const handleImageUpload = async (parentElement: HTMLElement) => {
+  console.log(parentElement);
+  parentElement.innerHTML = "";
+  parentElement.classList.add("h-auto");
+
+  const fileInput: HTMLInputElement = document.createElement("input");
+  fileInput.type = "file";
+  fileInput.classList.add("hidden");
+
+  // Add a change event listener to detect when a file is selected
+  fileInput.addEventListener("change", async () => {
+    const formData = new FormData();
+    if (fileInput.files && fileInput.files.length > 0) {
+      formData.append("file", fileInput.files[0]);
+      formData.append("upload_preset", "wsugtigo");
+      try {
+        const image: HTMLImageElement = document.createElement("img");
+        image.classList.add(
+          "h-[500px]",
+          "w-full",
+          "object-contain",
+          "rounded-md",
+          "animate-pulse",
+          "bg-slate-200"
+        );
+        parentElement.appendChild(image);
+        addNewTextarea(image);
+
+        const res = await axios.post(
+          "https://api.cloudinary.com/v1_1/drrrbo5hw/image/upload",
+          formData
+        );
+
+        image.classList.remove("animate-pulse", "bg-slate-200");
+        image.src = res.data.url;
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
+    }
+  });
+
+  parentElement.appendChild(fileInput);
+
+  // Trigger the click event after the change event listener has been set up
+  fileInput.click();
 };
 
 // Initial setup
