@@ -31,7 +31,7 @@ export const handleTextareaInput = (event: KeyboardEvent) => {
  */
 export const addNewTextarea = (currentTextarea: HTMLElement) => {
   const newDiv: HTMLElement = document.createElement("div") as HTMLElement;
-  newDiv.classList.add("w-full");
+  newDiv.classList.add("w-full", "input-div");
 
   const newTextarea = document.createElement("textarea");
   newTextarea.placeholder = "Type here...";
@@ -52,9 +52,6 @@ export const addNewTextarea = (currentTextarea: HTMLElement) => {
   if (parentOfCurrentTextarea) {
     parentOfCurrentTextarea.insertAdjacentElement("afterend", newDiv);
   }
-
-  //order the textareas' parent divs
-  orderTextAreas();
 
   newTextarea.addEventListener("focusin", (e: Event) => {
     e.preventDefault();
@@ -86,16 +83,18 @@ const removeAndFocusNextTextarea = (element: HTMLElement | null) => {
   if (!element) {
     return;
   }
-
-  const prevSibling = element.previousSibling as HTMLElement;
-  console.log(prevSibling);
-
-  if (prevSibling && prevSibling.firstChild instanceof HTMLTextAreaElement) {
-    element.remove();
-    prevSibling.firstChild.focus();
-  } else {
-    removeAndFocusNextTextarea(prevSibling as HTMLElement);
+  const child = element.firstChild as HTMLElement;
+  if (child.getAttribute("id") == "initial") {
+    console.log("child");
+    child.focus();
+    return;
   }
+
+  const prevSibling = element.previousSibling
+    ?.firstChild as HTMLTextAreaElement;
+
+  element.remove();
+  prevSibling.focus();
 };
 
 /**
@@ -103,27 +102,31 @@ const removeAndFocusNextTextarea = (element: HTMLElement | null) => {
  * @param textarea - The textarea element to be set up.
  */
 const setupTextarea = (textarea: HTMLTextAreaElement) => {
-  textarea.addEventListener("focus", (e: Event) => {
-    e.preventDefault();
-    if (textarea.value == "") {
-      addOptions(textarea.parentNode as HTMLElement);
-    }
-  });
+  if (textarea.getAttribute("id") !== "description") {
+    textarea.addEventListener("focus", (e: Event) => {
+      e.preventDefault();
+      if (textarea.value == "") {
+        addOptions(textarea.parentNode as HTMLElement);
+      }
+    });
 
-  textarea.addEventListener("input", (e: Event) => {
-    e.preventDefault();
-    if (textarea.value == "") {
-      addOptions(textarea.parentNode as HTMLElement);
-    }
-  });
+    textarea.addEventListener("input", (e: Event) => {
+      e.preventDefault();
+      if (textarea.value == "") {
+        addOptions(textarea.parentNode as HTMLElement);
+      }
+    });
+  }
 
   textarea.addEventListener("keydown", (event: KeyboardEvent) => {
     if (textarea.value !== "") {
       document.querySelector("#options-btn")?.remove();
     }
-    if (event.key === "Enter" && textarea.value !== "") {
-      event.preventDefault();
-      addNewTextarea(textarea);
+    if (textarea.getAttribute("id") !== "description") {
+      if (event.key === "Enter" && textarea.value !== "") {
+        event.preventDefault();
+        addNewTextarea(textarea);
+      }
     }
 
     // Defer autoExpand until the next tick to ensure the height has updated
@@ -139,27 +142,8 @@ const setupTextarea = (textarea: HTMLTextAreaElement) => {
  */
 export const setupTextareas = () => {
   const textareas = Array.from(document.querySelectorAll("textarea"));
-  textareas.shift();
   textareas.forEach((textarea) => {
     setupTextarea(textarea);
-  });
-};
-
-/**
- * Updates the "id" attribute of each textarea's parent element to maintain a consistent order.
- * The updated "id" is based on the index of the textarea in the document order.
- * Also, reorders the 'data' array to match the order of textareas.
- */
-const orderTextAreas = () => {
-  const textAreas: HTMLTextAreaElement[] = Array.from(
-    document.querySelectorAll("textarea")
-  );
-
-  textAreas.forEach((textArea, index) => {
-    const parentElement = textArea.parentElement;
-    if (parentElement) {
-      parentElement.setAttribute("id", `text-area-div-${index}`);
-    }
   });
 };
 

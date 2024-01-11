@@ -1,24 +1,40 @@
 export interface ParagraphContent {
   type: "paragraph";
   text: string;
-  position?: number; // Add position property
+  // Add position property
 }
 
 export interface HeadingContent {
   type: "heading";
   text: string;
-  position?: number;
+}
+export interface EmbedContent {
+  type: "embed";
+  url: string;
 }
 
 export interface CodeContent {
   type: "code";
   language: string;
   code: string;
-  position?: number;
 }
 
 export interface ImageContent {
   type: "image";
   url: string;
-  position?: number;
+}
+
+export interface IBlog {
+  title: string;
+  description: string;
+  coverImage: string;
+  topic: string;
+  content: Array<
+    | ParagraphContent
+    | HeadingContent
+    | CodeContent
+    | ImageContent
+    | EmbedContent
+  >;
+  author?: string;
 }

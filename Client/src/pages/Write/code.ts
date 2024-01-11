@@ -24,6 +24,7 @@ export const handleAddCode = (parentElement: HTMLElement) => {
     "textarea"
   ) as HTMLTextAreaElement;
   codeArea.placeholder = "Enter your code here ...";
+  codeArea.id = "code";
 
   // Add event listener for focusout
   codeArea.addEventListener("focusout", () => {

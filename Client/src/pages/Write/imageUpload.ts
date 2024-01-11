@@ -3,7 +3,7 @@ import { addNewTextarea } from "./textArea";
 
 export const handleImageUpload = async (parentElement: HTMLElement) => {
   parentElement.innerHTML = "";
-  parentElement.classList.add("h-auto");
+  parentElement.classList.add("h-auto","relative");
 
   const fileInput: HTMLInputElement = document.createElement("input");
   fileInput.type = "file";

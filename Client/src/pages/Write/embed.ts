@@ -8,6 +8,7 @@ export const handleAddEmbed = (parentElement: HTMLElement) => {
   ) as HTMLInputElement;
   embedInput.classList.add("focus:outline-none", "w-full");
   embedInput.placeholder = "Enter your link here ...";
+  embedInput.id = "embed";
   parentElement.appendChild(embedInput);
   embedInput.focus();
 

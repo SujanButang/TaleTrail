@@ -12,6 +12,7 @@ export const handleAddHeading = (parentElement: HTMLElement) => {
     "font-bold"
   );
   headingInput.placeholder = "Enter your heading here ...";
+  headingInput.id = "heading";
   parentElement.appendChild(headingInput);
   headingInput.focus();
 
