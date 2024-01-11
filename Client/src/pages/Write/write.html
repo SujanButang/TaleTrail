@@ -1,50 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../../../src/style.css" />
-    <link rel="icon" href="../../../logo.png" type="image/x-icon">
+
+    <link rel="icon" href="../../../logo.png" type="image/x-icon" />
+
     <title>Tale-Trail</title>
-</head>
+  </head>
 
-<body class="h-[100vh]">
-    <header class="lg:px-32 md:px-20 flex items-center justify-between h-[10%] border-b border-black sticky">
-        <figure class="flex items-center justify-center m-0 p-0 h-7">
-            <img src="../../../public/logo.png" alt="logo" class="h-[100%] w-[100%] object-contain">
-        </figure>
-        <nav class="flex items-center justify-center w-[50%]">
-            <ul class="flex items-center gap-10 w-[80%] justify-end text-sm font-light">
-                <li class="cursor-pointer" id="publish">
-                    <button id="publish-btn" class="bg-[#1a8917] py-1 px-3 rounded-3xl text-white hover:bg-[#156d12]">
-                        Publish
-                    </button>
-                </li>
-                <li class="cursor-pointer" id="profile">
-                    <figure class="h-5 w-5">
-                        <img src="../../../public/option.png" alt="" class="h-full w-full object-cover">
-                    </figure>
-                </li>
-                <li class="cursor-pointer" id="profile">
-                    <figure class="h-8 w-8 rounded-full overflow-hidden">
-                        <img src="../../../public/no-profile.jpg" alt="" class="h-full w-full object-cover">
-                    </figure>
-                </li>
-            </ul>
-        </nav>
+  <body class="h-[100vh]">
+    <header
+      class="lg:px-32 md:px-20 flex items-center justify-between h-[10%] border-b border-black sticky"
+    >
+      <figure class="flex items-center justify-center m-0 p-0 h-7">
+        <img
+          src="../../../public/logo.png"
+          alt="logo"
+          class="h-[100%] w-[100%] object-contain"
+        />
+      </figure>
+      <nav class="flex items-center justify-center w-[50%]">
+        <ul
+          class="flex items-center gap-10 w-[80%] justify-end text-sm font-light"
+        >
+          <li class="cursor-pointer" id="publish">
+            <button
+              id="publish-btn"
+              class="bg-[#1a8917] py-1 px-3 rounded-3xl text-white hover:bg-[#156d12]"
+            >
+              Publish
+            </button>
+          </li>
+          <li class="cursor-pointer" id="profile">
+            <figure class="h-5 w-5">
+              <img
+                src="../../../public/option.png"
+                alt=""
+                class="h-full w-full object-cover"
+              />
+            </figure>
+          </li>
+          <li class="cursor-pointer" id="profile">
+            <figure class="h-8 w-8 rounded-full overflow-hidden">
+              <img
+                src="../../../public/no-profile.jpg"
+                alt=""
+                class="h-full w-full object-cover"
+              />
+            </figure>
+          </li>
+        </ul>
+      </nav>
     </header>
-    <main class="lg:px-80 md:px-20 flex items-center justify-between">
-        <form action="" id="blog-form" class="py-5 w-full gap-5 flex flex-col items-center">
-            <input type="text" placeholder="Title" id="title" class="h-24 text-4xl font-bold w-full focus:outline-none">
-            <div class="w-full">
-
-                <textarea placeholder="Tell your story ..."
-                    class="w-full text-lg focus:outline-none resize-none overflow-y-hidden h-6"></textarea>
-            </div>
-        </form>
+    <main class="lg:px-80 md:px-20 flex flex-col items-center justify-between gap-5">
+      <input
+        type="text"
+        placeholder="Title"
+        id="title"
+        class="h-24 text-4xl font-bold w-full focus:outline-none"
+      />
+      <figure
+        class="h-[500px] w-full object-contain rounded-md bg-slate-200 flex flex-col items-center justify-center"
+        id="cover-image"
+      >
+        <img
+          src="../../../upload.png"
+          alt=""
+          class="h-40 w-40 cursor-pointer"
+          id="image-upload"
+        />
+        <span>Add a cover image</span>
+      </figure>
+      <div class="w-full">
+        <textarea
+          placeholder="Add a description ..."
+          class="w-full text-lg focus:outline-none resize-none overflow-y-hidden h-6"
+        ></textarea>
+      <form
+        id="blog-form"
+        class="py-5 w-full gap-5 flex flex-col items-center"
+      >
+        <div class="w-full">
+          <textarea
+            placeholder="Tell your story ..."
+            class="w-full text-lg focus:outline-none resize-none overflow-y-hidden h-6"
+          ></textarea>
+        </div>
+      </form>
     </main>
     <script type="module" src="./write.ts"></script>
-</body>
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/vs2015.min.css"
+    />
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </body>
 </html>
