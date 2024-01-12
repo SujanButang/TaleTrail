@@ -1,4 +1,5 @@
 import { Column, DataType, Model, Table } from "sequelize-typescript";
+import NotFoundError from "../errors/notFoundError";
 
 @Table({
   timestamps: true,
@@ -30,4 +31,10 @@ export const newTopic = async (topic: string) => {
   await TopicModel.create({
     topic: topic,
   });
+};
+
+export const getTopicId = async (topic: string) => {
+  const existingTopic = await TopicModel.findOne({ where: { topic } });
+  if (!existingTopic) throw new NotFoundError("TOpic not found! .☹️");
+  return existingTopic.id;
 };

@@ -1,4 +1,5 @@
 import {
+  BelongsTo,
   Column,
   CreatedAt,
   DataType,
@@ -45,6 +46,12 @@ export class BlogModel extends Model {
   })
   declare description: string;
 
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  declare cover_image: string;
+
   @ForeignKey(() => TopicModel)
   @Column({
     type: DataType.UUID,
@@ -61,11 +68,14 @@ export class BlogModel extends Model {
   @Column({
     type: DataType.UUID,
   })
-  declare author: string;
+  declare author_id: string;
 
   @CreatedAt
   declare created_at: Date;
 
   @UpdatedAt
   declare updated_at: Date;
+  
+ @BelongsTo(()=>UserModel)
+ declare author:UserModel[];
 }

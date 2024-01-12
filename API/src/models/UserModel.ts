@@ -2,10 +2,12 @@ import {
   Column,
   CreatedAt,
   DataType,
+  HasMany,
   Model,
   Table,
   UpdatedAt,
 } from "sequelize-typescript";
+import { BlogModel } from "./BlogModel";
 
 @Table({
   timestamps: true,
@@ -50,6 +52,9 @@ export class UserModel extends Model {
     defaultValue: false,
   })
   declare verified: boolean;
+
+  @HasMany(() => BlogModel)
+  declare blogs: BlogModel[];
 
   @CreatedAt
   declare created_at: Date;

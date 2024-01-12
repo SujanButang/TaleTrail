@@ -74,3 +74,12 @@ export const cookieValid = async (): Promise<boolean> => {
   if (res.status == 200) return true;
   return false;
 };
+
+export const toggleModal = (modal: HTMLElement) => {
+  const classList = Array.from(modal.classList);
+  if (classList.includes("hidden")) {
+    toggleClass(modal, { remove: "hidden", add: "flex" });
+  } else {
+    toggleClass(modal, { add: "hidden", remove: "flex" });
+  }
+};

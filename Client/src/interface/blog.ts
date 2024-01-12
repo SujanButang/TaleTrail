@@ -1,3 +1,5 @@
+import { IUser } from "./user";
+
 export interface ParagraphContent {
   type: "paragraph";
   text: string;
@@ -27,7 +29,7 @@ export interface ImageContent {
 export interface IBlog {
   title: string;
   description: string;
-  coverImage: string;
+  cover_image: string;
   topic: string;
   content: Array<
     | ParagraphContent
@@ -36,5 +38,20 @@ export interface IBlog {
     | ImageContent
     | EmbedContent
   >;
-  author?: string;
+  author: IUser;
+  created_at:Date;
+}
+
+export interface IBlogSubmit{
+  title: string;
+  description: string;
+  cover_image: string;
+  topic: string;
+  content: Array<
+    | ParagraphContent
+    | HeadingContent
+    | CodeContent
+    | ImageContent
+    | EmbedContent
+  >;
 }

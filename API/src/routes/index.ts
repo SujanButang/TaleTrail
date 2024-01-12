@@ -9,7 +9,7 @@ const router = Router();
 
 router.use("/auth", AuthRoutes);
 router.use("/topic", verifyAuth, TopicRoutes);
-router.use("/blog", verifyAuth, BlogRoutes);
+router.use("/blog", BlogRoutes);
 router.use("/user", UserRoutes);
 
 export default router;

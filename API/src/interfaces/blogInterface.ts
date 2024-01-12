@@ -1,4 +1,3 @@
-
 export interface ParagraphContent {
   type: "paragraph";
   text: string;
@@ -28,15 +27,16 @@ export interface IBlog {
   title: string;
   description: string;
   topic: string;
+  coverImage: string;
   content: Array<
     ParagraphContent | HeadingContent | CodeContent | ImageContent
   >;
   author: string;
 }
 
-
-export interface IBlogRequest  {
+export interface IBlogRequest {
   body: {
     blog: IBlog;
   };
+  query?: string;
 }

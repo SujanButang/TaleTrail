@@ -1,11 +1,13 @@
+import { makeRequest } from "../../axios/axios";
 import {
   CodeContent,
   EmbedContent,
   HeadingContent,
-  IBlog,
+  IBlogSubmit,
   ImageContent,
 } from "../../interface/blog";
-import { showToast } from "../../utils/utils";
+import { IHTTPError } from "../../interface/httpError";
+import { showToast, toggleModal } from "../../utils/utils";
 import { handleImageUpload } from "./imageUpload";
 import { handleTextareaInput, setupTextareas } from "./textArea";
 
@@ -40,7 +42,7 @@ const observeDocumentChanges = () => {
 };
 
 const publishBtn = document.querySelector("#publish") as HTMLButtonElement;
-publishBtn.addEventListener("click", () => {
+publishBtn.addEventListener("click", async (): Promise<void> => {
   const titleElement = document.querySelector("#title") as HTMLInputElement;
   if (titleElement.value == "") {
     showToast("fail", "Please give your blog a title. ☹️");
@@ -62,10 +64,10 @@ publishBtn.addEventListener("click", () => {
   }
   const coverImage = coverFigure.querySelector("img") as HTMLImageElement;
 
-  const data: IBlog = {
+  const data: IBlogSubmit = {
     title: titleElement.value,
     description: descriptionElement.value,
-    coverImage: coverImage.src,
+    cover_image: coverImage.src,
     topic: "some topic",
     content: [],
   };
@@ -118,7 +120,22 @@ publishBtn.addEventListener("click", () => {
 
   //
 
-  console.log(data);
+  try {
+    const res = await makeRequest.post("/blog", { blog: data });
+    if (res.status == 200) {
+      showToast("success", res.data);
+    }
+    setTimeout(() => {
+      window.location.href = `${window.location.origin}`;
+    }, 2000);
+  } catch (error) {
+    const errorMessage =
+      typeof error === "object" && error !== null
+        ? (error as IHTTPError)?.response?.data?.message
+        : "";
+
+    showToast("failed", errorMessage as string);
+  }
 });
 
 const form = document.querySelector("form") as HTMLFormElement;
@@ -126,3 +143,25 @@ form.addEventListener("submit", (e: Event) => e.preventDefault());
 // Initial setup
 observeDocumentChanges();
 setupTextareas();
+
+const optionButton = document.getElementById("option") as HTMLElement;
+const optionDiv = document.querySelector("#option-div") as HTMLElement;
+
+optionButton.addEventListener("click", (e: Event) => {
+  e.preventDefault();
+
+  toggleModal(optionDiv);
+});
+
+const addTopicModal = document.querySelector("#topic-div") as HTMLElement;
+const addTopicBtn = document.querySelector("#add-topic") as HTMLButtonElement;
+addTopicBtn.addEventListener("click", (e: Event) => {
+  e.preventDefault();
+  toggleModal(addTopicModal);
+});
+
+const cancelBtn = document.querySelector("#cancel-btn") as HTMLButtonElement;
+cancelBtn.addEventListener("click", (e: Event) => {
+  e.preventDefault();
+  toggleModal(addTopicModal);
+});
