@@ -31,7 +31,6 @@ export const getBlogs = async () => {
     ) as HTMLElement;
     populateBlogs(blogContainer, res.data);
   } catch (error) {
-    console.log(error);
     const errorMessage =
       typeof error === "object" && error !== null
         ? (error as IHTTPError)?.response?.data?.message

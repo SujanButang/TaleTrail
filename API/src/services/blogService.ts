@@ -26,6 +26,7 @@ export const getAllBlogs = async (query: PaginationQuery) => {
   const pageDetails = getPaginationOptions({ page, size });
 
   const selectedColumns = [
+    "id",
     "title",
     "description",
     "cover_image",
@@ -47,4 +48,18 @@ export const getAllBlogs = async (query: PaginationQuery) => {
 
   if (blogs.length === 0) throw new NotFoundError("Blogs list empty");
   return { blogs, status: 200 };
+};
+
+export const getBlogById = async (id: string) => {
+  const data = await BlogModel.findOne({
+    where: { id },
+    include: [
+      {
+        model: UserModel, // Assuming this is your UserModel
+        attributes: ["id","username", "profile_image"],
+      },
+    ],
+  });
+  if (!data) throw new NotFoundError("Blog with the provided id not found! ☹️");
+  return { data, status: 200 };
 };

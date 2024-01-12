@@ -27,6 +27,7 @@ export interface ImageContent {
 }
 
 export interface IBlog {
+  id:string;
   title: string;
   description: string;
   cover_image: string;

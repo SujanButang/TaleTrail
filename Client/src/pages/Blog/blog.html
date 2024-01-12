@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../style.css" />
+    <link rel="icon" href="../../../logo.png" type="image/x-icon" />
+    <title>Tale-Trail</title>
+  </head>
+  <body class="h-[100vh]">
+    <header
+      class="lg:px-32 md:px-20 px-10 flex items-center justify-between h-[10%] border-b border-black sticky"
+    >
+      <figure class="flex items-center justify-center m-0 p-0 h-7">
+        <img src="../../../logo.png" alt="logo" class="h-[100%] w-[100%]" />
+      </figure>
+      <nav class="flex items-center justify-center w-[50%]">
+        <ul
+          class="flex items-center gap-10 w-[80%] justify-end text-sm font-light"
+        >
+          <li class="cursor-pointer md:flex hidden">
+            <a
+              href="./src/pages/Login/login.html"
+              class="flex items-center gap-1"
+              id="write-link"
+            >
+              <img src="../../../write.png" alt="" height="20" width="20" />
+              Write
+            </a>
+          </li>
+          <li class="cursor-pointer sm:flex hidden" id="sign-in">
+            <a href="./src/pages/Login/login.html"> Sign in </a>
+          </li>
+          <li class="cursor-pointer" id="get-started">
+            <button
+              id="register-btn"
+              class="bg-[#1a8917] py-2 px-3 rounded-3xl text-white hover:bg-[#156d12]"
+            >
+              <a href="./src/pages/Register/register.html"> Get Started </a>
+            </button>
+          </li>
+          <li class="cursor-pointer" id="profile">
+            <figure class="h-8 w-8 rounded-full overflow-hidden">
+              <img
+                src="../../../no-profile.jpg"
+                alt=""
+                class="h-[100%] w-[100%] object-cover"
+              />
+            </figure>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main class="flex flex-col px-96 w-full py-5 gap-10">
+      <div class="flex flex-col gap-10">
+        <h1 class="font-extrabold text-4xl leading-[50px]" id="blog-title"></h1>
+        <div class="flex items-center gap-3">
+          <figure class="w-11 h-11 rounded-full object-cover overflow-hidden">
+            <img
+              src="../../../no-profile.jpg"
+              alt=""
+              class="h-[100%] w-[100%] object-cover"
+              id="author-image"
+            />
+          </figure>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-5">
+              <span class="font-semibold" id="author-name"> Sujan Rai </span>
+              <button class="text-[#1a8917]">Follow</button>
+            </div>
+            <span class="font-light text-sm" id="published-date"> March 23, 2024 </span>
+          </div>
+        </div>
+        <div
+          class="flex items-center justify-between border-b border-t py-3 px-2"
+        >
+          <div class="flex items-center gap-3">
+            <button class="h-4 w-4 overflow-hidden object-cover">
+              <img
+                src="../../../heart.png"
+                alt=""
+                class="h-[100%] w-[100%] object-cover"
+              />
+            </button>
+            <span class="text-[#6b6b6b] text-sm">21</span>
+            <button class="h-5 w-5 overflow-hidden object-cover">
+              <img
+                src="../../../comment.png"
+                alt=""
+                class="h-[100%] w-[100%] object-cover"
+              />
+            </button>
+          </div>
+          <div class="flex items-center gap-3">
+            <button class="h-5 w-5 overflow-hidden object-cover">
+              <img
+                src="../../../bookmark.png"
+                alt=""
+                class="h-[100%] w-[100%] object-cover"
+              />
+            </button>
+            <button class="h-5 w-5 overflow-hidden object-cover">
+              <img
+                src="../../../play.png"
+                alt=""
+                class="h-[100%] w-[100%] object-cover"
+              />
+            </button>
+          </div>
+        </div>
+        <figure class="h-[500px] w-full object-cover">
+          <img
+            src=""
+            alt=""
+            class="h-[100%] w-[100%] object-cover"
+            id="cover-image"
+          />
+        </figure>
+        <p class="text-xl text-justify" id="description"></p>
+      </div>
+      <div class="flex items-center justify-between py-3 px-2">
+        <div class="flex items-center gap-3">
+          <button class="h-4 w-4 overflow-hidden object-cover">
+            <img
+              src="../../../heart.png"
+              alt=""
+              class="h-[100%] w-[100%] object-cover"
+            />
+          </button>
+          <span class="text-[#6b6b6b] text-sm">21</span>
+          <button class="h-5 w-5 overflow-hidden object-cover">
+            <img
+              src="../../../comment.png"
+              alt=""
+              class="h-[100%] w-[100%] object-cover"
+            />
+          </button>
+        </div>
+        <div class="flex items-center gap-3">
+          <button class="h-5 w-5 overflow-hidden object-cover">
+            <img
+              src="../../../bookmark.png"
+              alt=""
+              class="h-[100%] w-[100%] object-cover"
+            />
+          </button>
+          <button class="h-5 w-5 overflow-hidden object-cover">
+            <img
+              src="../../../play.png"
+              alt=""
+              class="h-[100%] w-[100%] object-cover"
+            />
+          </button>
+        </div>
+      </div>
+    </main>
+    <footer class="bg-[#f9f9f9] flex flex-col px-96 w-full gap-10 py-10">
+      <div class="flex flex-col gap-3">
+        <figure class="h-16 w-16">
+          <img
+            src="../../../no-profile.jpg"
+            alt=""
+            class="h-[100%] w-[100%] object-cover rounded-full"
+            id="author-image"
+          />
+        </figure>
+        <div class="flex items-center justify-between">
+          <span class="text-2xl font-bold">Written by Sujan Rai</span>
+          <button
+            class="bg-[#1a8917] hover:bg-[#156d12] px-5 py-2 rounded-3xl text-white"
+          >
+            Follow
+          </button>
+        </div>
+        <span>38K followers</span>
+        <p class="pb-5">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum
+          earum, iure sunt numquam officiis voluptatibus quo magnam consequuntur
+          ea nesciunt, labore vitae. Delectus quidem tenetur commodi sit rerum
+          sed voluptatem?
+        </p>
+        <hr />
+      </div>
+      <div class="flex flex-col gap-3">
+        <h1 class="text-2xl font-bold">More from Sujan Rai</h1>
+      </div>
+      <div class="flex flex-wrap gap-10">
+        <div class="max-h-[400px] w-[335px] flex-col gap-3 flex cursor-pointer">
+          <figure class="h-[40%]">
+            <img
+              src="https://miro.medium.com/v2/resize:fit:1019/0*RtVi71Ri2j2cc2yz"
+              alt=""
+              class="h-full w-full object-cover"
+            />
+          </figure>
+          <figure class="flex items-center gap-5">
+            <img
+              src="../../../no-profile.jpg"
+              alt=""
+              class="h-5 w-5 object-cover rounded-full"
+              id="author-image"
+            />
+            <span class="font-thin text-sm">Sujan Rai</span>
+          </figure>
+          <h1 class="text-xl font-bold">
+            The title of this blog is some random stuffs
+          </h1>
+          <p class="leading-[1.5em] h-[3em] overflow-hidden">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit
+            obcaecati placeat, magni totam a qui temporibus facilis? Numquam
+            accusamus similique eum necessitatibus sunt aspernatur totam. Alias
+            voluptas esse provident dolore?
+          </p>
+          <span class="text-sm font-light"> March 23, 2023 </span>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <button class="h-4 w-4 overflow-hidden object-cover">
+                <img
+                  src="../../../heart.png"
+                  alt=""
+                  class="h-[100%] w-[100%] object-cover"
+                />
+              </button>
+              <span class="text-[#6b6b6b] text-sm">21</span>
+              <button class="h-5 w-5 overflow-hidden object-cover">
+                <img
+                  src="../../../comment.png"
+                  alt=""
+                  class="h-[100%] w-[100%] object-cover"
+                />
+              </button>
+            </div>
+            <div class="flex items-center gap-3">
+              <button class="h-5 w-5 overflow-hidden object-cover">
+                <img
+                  src="../../../bookmark.png"
+                  alt=""
+                  class="h-[100%] w-[100%] object-cover"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="max-h-[400px] w-[335px] flex-col gap-3 flex cursor-pointer">
+          <figure class="h-[40%]">
+            <img
+              src="https://miro.medium.com/v2/resize:fit:1019/0*RtVi71Ri2j2cc2yz"
+              alt=""
+              class="h-full w-full object-cover"
+            />
+          </figure>
+          <figure class="flex items-center gap-5">
+            <img
+              src="../../../no-profile.jpg"
+              alt=""
+              class="h-5 w-5 object-cover rounded-full"
+              id="author-image"
+            />
+            <span class="font-thin text-sm">Sujan Rai</span>
+          </figure>
+          <h1 class="text-xl font-bold">
+            The title of this blog is some random stuffs
+          </h1>
+          <p class="leading-[1.5em] h-[3em] overflow-hidden">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit
+            obcaecati placeat, magni totam a qui temporibus facilis? Numquam
+            accusamus similique eum necessitatibus sunt aspernatur totam. Alias
+            voluptas esse provident dolore?
+          </p>
+          <span class="text-sm font-light"> March 23, 2023 </span>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <button class="h-4 w-4 overflow-hidden object-cover">
+                <img
+                  src="../../../heart.png"
+                  alt=""
+                  class="h-[100%] w-[100%] object-cover"
+                />
+              </button>
+              <span class="text-[#6b6b6b] text-sm">21</span>
+              <button class="h-5 w-5 overflow-hidden object-cover">
+                <img
+                  src="../../../comment.png"
+                  alt=""
+                  class="h-[100%] w-[100%] object-cover"
+                />
+              </button>
+            </div>
+            <div class="flex items-center gap-3">
+              <button class="h-5 w-5 overflow-hidden object-cover">
+                <img
+                  src="../../../bookmark.png"
+                  alt=""
+                  class="h-[100%] w-[100%] object-cover"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="max-h-[400px] w-[335px] flex-col gap-3 flex cursor-pointer">
+          <figure class="h-[40%]">
+            <img
+              src="https://miro.medium.com/v2/resize:fit:1019/0*RtVi71Ri2j2cc2yz"
+              alt=""
+              class="h-full w-full object-cover"
+            />
+          </figure>
+          <figure class="flex items-center gap-5">
+            <img
+              src="../../../no-profile.jpg"
+              alt=""
+              class="h-5 w-5 object-cover rounded-full"
+              id="author-image"
+            />
+            <span class="font-thin text-sm">Sujan Rai</span>
+          </figure>
+          <h1 class="text-xl font-bold">
+            The title of this blog is some random stuffs
+          </h1>
+          <p class="leading-[1.5em] h-[3em] overflow-hidden">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit
+            obcaecati placeat, magni totam a qui temporibus facilis? Numquam
+            accusamus similique eum necessitatibus sunt aspernatur totam. Alias
+            voluptas esse provident dolore?
+          </p>
+          <span class="text-sm font-light"> March 23, 2023 </span>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <button class="h-4 w-4 overflow-hidden object-cover">
+                <img
+                  src="../../../heart.png"
+                  alt=""
+                  class="h-[100%] w-[100%] object-cover"
+                />
+              </button>
+              <span class="text-[#6b6b6b] text-sm">21</span>
+              <button class="h-5 w-5 overflow-hidden object-cover">
+                <img
+                  src="../../../comment.png"
+                  alt=""
+                  class="h-[100%] w-[100%] object-cover"
+                />
+              </button>
+            </div>
+            <div class="flex items-center gap-3">
+              <button class="h-5 w-5 overflow-hidden object-cover">
+                <img
+                  src="../../../bookmark.png"
+                  alt=""
+                  class="h-[100%] w-[100%] object-cover"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="max-h-[400px] w-[335px] flex-col gap-3 flex cursor-pointer">
+          <figure class="h-[40%]">
+            <img
+              src="https://miro.medium.com/v2/resize:fit:1019/0*RtVi71Ri2j2cc2yz"
+              alt=""
+              class="h-full w-full object-cover"
+            />
+          </figure>
+          <figure class="flex items-center gap-5">
+            <img
+              src="../../../no-profile.jpg"
+              alt=""
+              class="h-5 w-5 object-cover rounded-full"
+              id="author-image"
+            />
+            <span class="font-thin text-sm">Sujan Rai</span>
+          </figure>
+          <h1 class="text-xl font-bold">
+            The title of this blog is some random stuffs
+          </h1>
+          <p class="leading-[1.5em] h-[3em] overflow-hidden">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit
+            obcaecati placeat, magni totam a qui temporibus facilis? Numquam
+            accusamus similique eum necessitatibus sunt aspernatur totam. Alias
+            voluptas esse provident dolore?
+          </p>
+          <span class="text-sm font-light"> March 23, 2023 </span>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <button class="h-4 w-4 overflow-hidden object-cover">
+                <img
+                  src="../../../heart.png"
+                  alt=""
+                  class="h-[100%] w-[100%] object-cover"
+                />
+              </button>
+              <span class="text-[#6b6b6b] text-sm">21</span>
+              <button class="h-5 w-5 overflow-hidden object-cover">
+                <img
+                  src="../../../comment.png"
+                  alt=""
+                  class="h-[100%] w-[100%] object-cover"
+                />
+              </button>
+            </div>
+            <div class="flex items-center gap-3">
+              <button class="h-5 w-5 overflow-hidden object-cover">
+                <img
+                  src="../../../bookmark.png"
+                  alt=""
+                  class="h-[100%] w-[100%] object-cover"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script type="module" src="./blog.ts"></script>
+  </body>
+</html>

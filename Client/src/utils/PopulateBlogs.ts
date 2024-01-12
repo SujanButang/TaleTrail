@@ -1,4 +1,11 @@
-import { IBlog } from "../interface/blog";
+import {
+  CodeContent,
+  EmbedContent,
+  HeadingContent,
+  IBlog,
+  ImageContent,
+  ParagraphContent,
+} from "../interface/blog";
 import moment from "moment";
 
 export const populateBlogs = (
@@ -64,6 +71,63 @@ export const populateBlogs = (
   `;
     blogDiv.appendChild(blogContent);
 
-    containerElement.appendChild(blogDiv);
+    const anchor = document.createElement("a") as HTMLAnchorElement;
+    anchor.href = `${window.location.origin}/src/pages/Blog/blog.html?blogId=${blog.id}`;
+    anchor.appendChild(blogDiv);
+
+    containerElement.appendChild(anchor);
+  });
+};
+
+export const populateBlogContent = (
+  containerElement: HTMLElement,
+  content: Array<
+    | ParagraphContent
+    | HeadingContent
+    | CodeContent
+    | ImageContent
+    | EmbedContent
+  >
+) => {
+  content.forEach((content) => {
+    const paragraphElement = document.createElement(
+      "p"
+    ) as HTMLParagraphElement;
+    paragraphElement.className = "text-xl text-justify";
+
+    const figureElement = document.createElement("figure") as HTMLElement;
+    figureElement.className = "h-[500px] w-full object-cover";
+
+    const imageElement = document.createElement("img") as HTMLImageElement;
+    imageElement.className = "h-[100%] w-[100%] object-cover";
+
+    figureElement.appendChild(imageElement);
+
+    const headingElement = document.createElement("h3") as HTMLHeadingElement;
+    headingElement.className = "text-2xl font-bold";
+
+    const anchorElement = document.createElement("a") as HTMLAnchorElement;
+    anchorElement.className = "text-[blue] underline";
+
+    switch (content.type) {
+      case "paragraph":
+        paragraphElement.innerText = content.text;
+        containerElement.appendChild(paragraphElement);
+        break;
+      case "image":
+        imageElement.src = content.url;
+        containerElement.appendChild(figureElement);
+        break;
+      case "heading":
+        headingElement.innerText = content.text;
+        containerElement.appendChild(headingElement);
+        break;
+      case "embed":
+        anchorElement.href = content.url;
+        containerElement.appendChild(anchorElement);
+        break;
+      default:
+        break;
+    }
   });
 };
