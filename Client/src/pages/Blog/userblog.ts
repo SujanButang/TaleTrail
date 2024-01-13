@@ -29,11 +29,10 @@ export const handleMoreBlog = async (userId: string) => {
     `/blog/userBlogs?userId=${userId}`
   );
   const moreBlogs = moreBlogsRes.data as Array<IBlog>;
-  console.log(moreBlogs);
   moreBlogs.forEach(async (blog) => {
     const blogContainer = document.createElement("div") as HTMLElement;
     blogContainer.className =
-      "max-h-[400px] w-[335px] flex-col gap-3 flex cursor-pointer";
+      "max-h-[400px] w-[400px] flex-col gap-5 flex cursor-pointer";
     blogContainer.innerHTML = `
     <figure class="h-[40%]">
       <img
@@ -63,56 +62,11 @@ ${blog.title}    </h1>
     <span class="text-sm font-light"> ${moment(blog.create_at).format(
       "MMMM DD, YYYY"
     )} </span>
-    <div class="flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <button class="h-4 w-4 overflow-hidden object-cover">
-          <img
-            src=${
-              (await handleHasLiked(blog.id))
-                ? "../../../heartfilled.png"
-                : "../../../heart.png"
-            }
-            alt=""
-            class="h-[100%] w-[100%] object-cover"
-            id="like-${blog.id}"
-          />
-        </button>
-        <span class="text-[#6b6b6b] text-sm" id="count-${blog.id}"></span>
-        <button class="h-5 w-5 overflow-hidden object-cover">
-          <img
-            src="../../../comment.png"
-            alt=""
-            class="h-[100%] w-[100%] object-cover"
-          />
-        </button>
-      </div>
-      <div class="flex items-center gap-3">
-        <button class="h-5 w-5 overflow-hidden object-cover">
-          <img
-            src="../../../bookmark.png"
-            alt=""
-            class="h-[100%] w-[100%] object-cover"
-          />
-        </button>
-      </div>
-    </div>
   `;
     moreBlogContainer.appendChild(blogContainer);
-    await handleLikeCount(blog.id, `count-${blog.id}`);
-    const likeBtn = document.querySelector(
-      `#like-${blog.id}`
-    ) as HTMLImageElement;
-    likeBtn.addEventListener("click", async (e: Event) => {
-      e.preventDefault();
-      await handleLike(blog.id, `like-${blog.id}`, `count-${blog.id}`);
+    blogContainer.addEventListener("click", () => {
+      window.location.href =
+        window.location.origin + "/src/pages/Blog/blog.html?blogId=" + blog.id;
     });
   });
-//   moreBlogContainer.addEventListener("click", async (e: Event) => {
-//     const target = e.target as HTMLElement;
-//     // Check if the clicked element is a like button
-//     if (target.tagName === "IMG" && target.id.startsWith("like-")) {
-//       const blogId = target.id.substring("like-".length);
-//       await handleLike(blogId, target.id, `count-${blogId}`);
-//     }
-//   });
 };

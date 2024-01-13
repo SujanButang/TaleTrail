@@ -1,181 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./src/style.css" />
-    <link rel="icon" href="logo.png" type="image/x-icon" />
-    <title>Tale-Trail</title>
-  </head>
 
-  <body class="h-[100vh] overflow-hidden">
-    <header
-      class="lg:px-32 md:px-20 px-10 flex items-center justify-between h-[10%] border-b border-black sticky"
-    >
-      <figure class="flex items-center justify-center m-0 p-0 h-7">
-        <img src="logo.png" alt="logo" class="h-[100%] w-[100%]" />
-      </figure>
-      <nav class="flex items-center justify-center w-[50%]">
-        <ul
-          class="flex items-center gap-10 w-[80%] justify-end text-sm font-light"
-        >
-          <li class="cursor-pointer md:flex hidden">
-            <a
-              href="./src/pages/Write/write.html"
-              class="flex items-center gap-1"
-              id="write-link"
-            >
-              <img src="write.png" alt="" height="20" width="20" />
-              Write
-            </a>
-          </li>
-          <li class="cursor-pointer sm:flex hidden" id="sign-in">
-            <a href="./src/pages/Login/login.html"> Sign in </a>
-          </li>
-          <li class="cursor-pointer" id="get-started">
-            <button
-              id="register-btn"
-              class="bg-[#1a8917] py-2 px-3 rounded-3xl text-white hover:bg-[#156d12]"
-            >
-              <a href="./src/pages/Register/register.html"> Get Started </a>
-            </button>
-          </li>
-          <li class="cursor-pointer" id="profile">
-            <figure class="h-8 w-8 rounded-full overflow-hidden">
-              <img
-                src="no-profile.jpg"
-                alt=""
-                class="h-full w-full object-cover"
-              />
-            </figure>
-          </li>
-        </ul>
-      </nav>
-    </header>
-    <main class="flex lg:px-20 md:px-2 h-full">
-      <section class="flex-col lg:w-[75%] w-full sm:px-14 px-10">
-        <div class="flex border-b gap-5 pt-5 pb-2 w-[100%] sm:ps-10 text-sm">
-          <span class="cursor-pointer">For you</span>
-          <span class="cursor-pointer">Following</span>
-        </div>
-        <div
-          class="flex flex-col sm:px-5 h-[80vh] overflow-y-scroll"
-          id="blog-container"
-        ></div>
-      </section>
-      <aside
-        class="lg:flex hidden border-l h-[100vh] flex-col gap-5 p-5 w-[25%]"
-      >
-        <div class="flex flex-col">
-          <h1 class="text-lg font-bold">Recommended topics</h1>
-          <div class="flex flex-wrap gap-3 p-2 py-5" id="topic-container"></div>
-          <span
-            class="text-[#1a8917] cursor-pointer hover:text-[#156d12] text-sm"
-            >See more topics</span
-          >
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./src/style.css" />
+  <link rel="icon" href="logo.png" type="image/x-icon" />
+  <title>Tale-Trail</title>
+</head>
 
-        <div class="flex flex-col">
-          <h1 class="text-lg font-bold">Who to follow</h1>
-          <div class="flex flex-col gap-3 py-5">
-            <div class="flex gap-2">
-              <figure class="w-8 h-8 rounded-full overflow-hidden object-cover">
-                <img
-                  src="https://miro.medium.com/v2/resize:fill:168:168/1*kkyb7iTBX2LqaHTgoB3wdA.png"
-                  alt=""
-                  class="h-full w-full"
-                />
-              </figure>
-              <div class="flex flex-col w-[60%]">
-                <h1 class="font-extrabold">Sujan Rai</h1>
-                <p class="text-sm font-light text-[#7b7b7b]">
-                  Some random stuffs about me is here
-                </p>
-              </div>
-              <div class="h-full flex items-center justify-center">
-                <button class="border rounded-2xl text-sm p-2">Follow</button>
-              </div>
+<body class="h-[100vh] overflow-hidden">
+  <header class="lg:px-32 md:px-20 px-10 flex items-center justify-between h-[10%] border-b border-black sticky">
+    <figure class="flex items-center justify-center m-0 p-0 h-7 cursor-pointer" id="home-link">
+      <img src="logo.png" alt="logo" class="h-[100%] w-[100%]" />
+    </figure>
+    <nav class="flex items-center justify-center w-[50%]">
+      <ul class="flex items-center gap-10 w-[80%] justify-end text-sm font-light">
+        <li class="cursor-pointer md:flex hidden">
+          <a href="./src/pages/Login/login.html" class="flex items-center gap-1" id="write-link">
+            <img src="write.png" alt="" height="20" width="20" />
+            Write
+          </a>
+        </li>
+        <li class="cursor-pointer sm:flex hidden" id="sign-in">
+          <a href="./src/pages/Login/login.html"> Sign in </a>
+        </li>
+        <li class="cursor-pointer" id="get-started">
+          <button id="register-btn" class="bg-[#1a8917] py-2 px-3 rounded-3xl text-white hover:bg-[#156d12]">
+            <a href="./src/pages/Register/register.html"> Get Started </a>
+          </button>
+        </li>
+        <li class="cursor-pointer hidden" id="profile">
+          <figure class="h-8 w-8 rounded-full relative" id="user-btn">
+            <img src="no-profile.jpg" alt="" class="h-full w-full object-cover" id="user-image"/>
+            <div
+              class="hidden border w-52 h-64 bg-white absolute rounded-sm flex-col shadow left-[-80px] top-[30px] py-5 px-5 gap-5"
+              id="profile-option-div">
+              <ul class="flex flex-col gap-3 px-1">
+                <li class="flex items-center gap-2">
+                  <img src="user.png" alt="" class="h-4 w-4 object-cover">
+                  <span class="text-[#757575] hover:text-[black] text-lg">Profile</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <img src="bookmarks.png" alt="" class="h-4 w-4 object-cover">
+                  <span class="text-[#757575] hover:text-[black] text-lg">Reading List</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <img src="blogging.png" alt="" class="h-4 w-4 object-cover">
+                  <span class="text-[#757575] hover:text-[black] text-lg">My Blogs</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <img src="settings.png" alt="" class="h-4 w-4 object-cover">
+                  <span class="text-[#757575] hover:text-[black] text-lg">Settings</span>
+                </li>
+                <hr />
+                <button class="flex flex-col" id="sign-out">
+                  <span class="text-[#757575] hover:text-[black] text-lg flex gap-2 items-center">
+                    <img src="logout.png" alt="" class="h-4 w-4 object-cover">
+                    Sign out
+                  </span>
+                  <span id="user-email">
+                    
+                  </span>
+                </button>
+
+              </ul>
+
             </div>
-            <div class="flex gap-2">
-              <figure class="w-8 h-8 rounded-full overflow-hidden object-cover">
-                <img
-                  src="https://miro.medium.com/v2/resize:fill:168:168/1*kkyb7iTBX2LqaHTgoB3wdA.png"
-                  alt=""
-                  class="h-full w-full"
-                />
-              </figure>
-              <div class="flex flex-col w-[60%]">
-                <h1 class="font-extrabold">Sujan Rai</h1>
-                <p class="text-sm font-light text-[#7b7b7b]">
-                  Some random stuffs about me is here
-                </p>
-              </div>
-              <div class="h-full flex items-center justify-center">
-                <button class="border rounded-2xl text-sm p-2">Follow</button>
-              </div>
             </div>
-            <div class="flex gap-2">
-              <figure class="w-8 h-8 rounded-full overflow-hidden object-cover">
-                <img
-                  src="https://miro.medium.com/v2/resize:fill:168:168/1*kkyb7iTBX2LqaHTgoB3wdA.png"
-                  alt=""
-                  class="h-full w-full"
-                />
-              </figure>
-              <div class="flex flex-col w-[60%]">
-                <h1 class="font-extrabold">Sujan Rai</h1>
-                <p class="text-sm font-light text-[#7b7b7b]">
-                  Some random stuffs about me is here
-                </p>
-              </div>
-              <div class="h-full flex items-center justify-center">
-                <button class="border rounded-2xl text-sm p-2">Follow</button>
-              </div>
-            </div>
-            <div class="flex gap-2">
-              <figure class="w-8 h-8 rounded-full overflow-hidden object-cover">
-                <img
-                  src="https://miro.medium.com/v2/resize:fill:168:168/1*kkyb7iTBX2LqaHTgoB3wdA.png"
-                  alt=""
-                  class="h-full w-full"
-                />
-              </figure>
-              <div class="flex flex-col w-[60%]">
-                <h1 class="font-extrabold">Sujan Rai</h1>
-                <p class="text-sm font-light text-[#7b7b7b]">
-                  Some random stuffs about me is here
-                </p>
-              </div>
-              <div class="h-full flex items-center justify-center">
-                <button class="border rounded-2xl text-sm p-2">Follow</button>
-              </div>
-            </div>
-            <div class="flex gap-2">
-              <figure class="w-8 h-8 rounded-full overflow-hidden object-cover">
-                <img
-                  src="https://miro.medium.com/v2/resize:fill:168:168/1*kkyb7iTBX2LqaHTgoB3wdA.png"
-                  alt=""
-                  class="h-full w-full"
-                />
-              </figure>
-              <div class="flex flex-col w-[60%]">
-                <h1 class="font-extrabold">Sujan Rai</h1>
-                <p class="text-sm font-light text-[#7b7b7b]">
-                  Some random stuffs about me is here
-                </p>
-              </div>
-              <div class="h-full flex items-center justify-center">
-                <button class="border rounded-2xl text-sm p-2">Follow</button>
-              </div>
-            </div>
-            <span
-              class="text-[#1a8917] cursor-pointer hover:text-[#156d12] text-sm"
-              >See more suggestions</span
-            >
-          </div>
+          </figure>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <main class="flex lg:px-20 md:px-2 h-full">
+    <section class="flex-col lg:w-[75%] w-full sm:px-14 px-10">
+      <div class="flex border-b gap-5 pt-5 pb-2 w-[100%] sm:ps-10 text-sm">
+        <span class="cursor-pointer">For you</span>
+        <span class="cursor-pointer">Following</span>
+      </div>
+      <div class="flex flex-col sm:px-5 h-[80vh] overflow-y-scroll" id="blog-container"></div>
+    </section>
+    <aside class="lg:flex hidden border-l h-[100vh] flex-col gap-5 p-5 w-[25%]">
+      <div class="flex flex-col">
+        <h1 class="text-lg font-bold">Recommended topics</h1>
+        <div class="flex flex-wrap gap-3 p-2 py-5" id="topic-container"></div>
+        <span class="text-[#1a8917] cursor-pointer hover:text-[#156d12] text-sm">See more topics</span>
+      </div>
+
+      <div class="flex flex-col">
+        <h1 class="text-lg font-bold">Who to follow</h1>
+        <div class="flex flex-col gap-3 py-5">
+          <div class="flex flex-col gap-3" id="users-container"></div>
+
+          <span class="text-[#1a8917] cursor-pointer hover:text-[#156d12] text-sm">See more suggestions</span>
         </div>
-      </aside>
-    </main>
-    <script type="module" src="./src/script.ts"></script>
-  </body>
+      </div>
+    </aside>
+  </main>
+  <script type="module" src="./src/script.ts"></script>
+</body>
+
 </html>

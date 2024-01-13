@@ -1,11 +1,72 @@
 import moment from "moment";
 import { makeRequest } from "../../axios/axios";
 import { IHTTPError } from "../../interface/httpError";
-import { showToast } from "../../utils/utils";
+import {
+  cookieValid,
+  getCookie,
+  logout,
+  showToast,
+  toggleClass,
+  toggleModal,
+} from "../../utils/utils";
 import { populateBlogContent } from "../../utils/PopulateBlogs";
 import { handleBookmark } from "./bookmark";
 import { handleLike } from "./like";
 import { handleMoreBlog } from "./userblog";
+
+//nav
+const homeLinkDiv = document.querySelector("#home-link") as HTMLElement;
+homeLinkDiv.addEventListener(
+  "click",
+  () => (window.location.href = window.location.origin)
+);
+
+const signInBtn: HTMLElement = document.querySelector(
+  "#sign-in"
+) as HTMLElement;
+const getStartedBtn: HTMLElement = document.querySelector(
+  "#get-started"
+) as HTMLElement;
+const writeLink: HTMLAnchorElement = document.querySelector(
+  "#write-link"
+) as HTMLAnchorElement;
+
+const profileContainer = document.querySelector("#profile") as HTMLElement;
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const cookie = getCookie("accessToken");
+  if (!cookie) return;
+  const validCookie = await cookieValid();
+  if (!validCookie) return;
+  toggleClass(signInBtn, { remove: "sm:flex" });
+  toggleClass(getStartedBtn, { add: "hidden" });
+  toggleClass(profileContainer, { add: "flex", remove: "hidden" });
+  writeLink.href = window.location.origin + "/src/pages/Write/write.html";
+});
+
+const userImage = document.querySelector("#user-image") as HTMLImageElement;
+const userEmail = document.querySelector("#user-email") as HTMLSpanElement;
+const userData = JSON.parse(localStorage.getItem("user") as string);
+userEmail.innerText = userData.email;
+if (userData.profileImage) {
+  userImage.src = userData.profileImage;
+}
+
+const profileOptionModal = document.querySelector(
+  "#profile-option-div"
+) as HTMLElement;
+const userBtn = document.querySelector("#user-btn") as HTMLElement;
+
+userBtn.addEventListener("click", (e: Event) => {
+  e.preventDefault();
+  toggleModal(profileOptionModal);
+});
+
+const signOutButton = document.querySelector("#sign-out") as HTMLButtonElement;
+signOutButton.addEventListener("click", async () => {
+  await logout();
+  window.location.href = window.location.origin;
+});
 
 const blogId = window.location.href.split("=")[1] as string;
 const blogTitleElement = document.querySelector(

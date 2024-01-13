@@ -71,7 +71,10 @@ export const getCookie = (name: string): string | null => {
  */
 export const cookieValid = async (): Promise<boolean> => {
   const res = await makeRequest.get("/user/me");
-  if (res.status == 200) return true;
+  if (res.status == 200) {
+    localStorage.setItem("user", JSON.stringify(res.data));
+    return true;
+  }
   return false;
 };
 
@@ -123,6 +126,15 @@ export const blogInReadingList = async (): Promise<
     return res.data;
   } catch (error) {
     return [];
+    console.log(error);
+  }
+};
+
+export const logout = async () => {
+  try {
+    await makeRequest.get("/auth/logout");
+    localStorage.clear();
+  } catch (error) {
     console.log(error);
   }
 };

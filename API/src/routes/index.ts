@@ -6,6 +6,7 @@ import { BlogRoutes } from "./blogRoute";
 import { UserRoutes } from "./user";
 import { ReadingListRoutes } from "./readingListRoute";
 import { LikeRoutes } from "./likeRoute";
+import { RelationRoutes } from "./relationshipRoute";
 
 const router = Router();
 
@@ -15,5 +16,6 @@ router.use("/blog", BlogRoutes);
 router.use("/user", UserRoutes);
 router.use("/readingList", verifyAuth, ReadingListRoutes);
 router.use("/like", LikeRoutes);
+router.use("/relationship", RelationRoutes);
 
 export default router;

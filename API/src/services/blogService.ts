@@ -9,7 +9,6 @@ import { UserModel } from "../models/UserModel";
 import { getPaginationOptions } from "../utils/pagination";
 
 export const createBlog = async (blog: IBlog): Promise<IMessageResponse> => {
-  console.log(blog);
   await BlogModel.create({
     title: blog.title,
     description: blog.description,

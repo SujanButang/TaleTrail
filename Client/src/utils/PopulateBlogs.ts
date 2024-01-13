@@ -9,8 +9,7 @@ import {
 import moment from "moment";
 import hljs from "highlight.js";
 import { makeRequest } from "../axios/axios";
-import { showToast, toggleIcon } from "./utils";
-import { IHTTPError } from "../interface/httpError";
+import { blogInReadingList, showToast, toggleIcon } from "./utils";
 
 export const populateBlogs = async (
   containerElement: HTMLElement,
@@ -40,9 +39,11 @@ export const populateBlogs = async (
     authorInfo.className = "flex items-center gap-3";
     authorInfo.innerHTML = `<figure class="w-8 h-8 rounded-full object-cover overflow-hidden">
     <img
-      src="${
-        blog.author.profileImage ? blog.author.profileImage : "no-profile.jpg"
-      }"
+      src=${
+        blog.author.profileImage !== undefined
+          ? blog.author.profileImage
+          : `${window.location.origin}/no-profile.jpg`
+      }
       alt=""
       class="h-full w-full"
     />
@@ -73,8 +74,8 @@ export const populateBlogs = async (
           <button class="h-5 w-5">
             <img src=${
               blogsInReadingList.includes(blog.id)
-                ? "bookmark-filled.png"
-                : "bookmark.png"
+                ? `${window.location.origin}/bookmark-filled.png`
+                : `${window.location.origin}/bookmark.png`
             } alt="" class="w-full h-full object-cover" id="save-btn-${
       blog.id
     }"/>
@@ -181,5 +182,3 @@ export const populateBlogContent = (
     }
   });
 };
-
-

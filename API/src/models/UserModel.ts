@@ -31,6 +31,11 @@ export class UserModel extends Model {
 
   @Column({
     type: DataType.TEXT,
+  })
+  declare bio: string;
+
+  @Column({
+    type: DataType.TEXT,
     allowNull: true,
   })
   declare password: string;
@@ -54,7 +59,7 @@ export class UserModel extends Model {
   declare verified: boolean;
 
   @HasMany(() => BlogModel)
-  declare blogs: BlogModel[];  
+  declare blogs: BlogModel[];
 
   @CreatedAt
   declare created_at: Date;
@@ -62,7 +67,6 @@ export class UserModel extends Model {
   @UpdatedAt
   declare updated_at: Date;
 }
-
 
 export const findUserByEmail = async (email: string) => {
   const user = await UserModel.findOne({ where: { email } });
