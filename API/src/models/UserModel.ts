@@ -54,7 +54,7 @@ export class UserModel extends Model {
   declare verified: boolean;
 
   @HasMany(() => BlogModel)
-  declare blogs: BlogModel[];
+  declare blogs: BlogModel[];  
 
   @CreatedAt
   declare created_at: Date;

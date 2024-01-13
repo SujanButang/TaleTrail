@@ -7,13 +7,24 @@ import {
   ParagraphContent,
 } from "../interface/blog";
 import moment from "moment";
+import hljs from "highlight.js";
+import { makeRequest } from "../axios/axios";
+import { showToast, toggleIcon } from "./utils";
+import { IHTTPError } from "../interface/httpError";
 
-export const populateBlogs = (
+export const populateBlogs = async (
   containerElement: HTMLElement,
   blogs: Array<IBlog>
 ) => {
+  const readingList = (await blogInReadingList()) as {
+    id: string;
+    blogId: string;
+    userId: string;
+    created_at: Date;
+    updated_at: Date;
+  }[];
+  const blogsInReadingList = readingList.map((blog) => blog.blogId);
   blogs.forEach((blog: IBlog) => {
-    console.log("here");
     const blogDiv = document.createElement("div") as HTMLElement;
     blogDiv.classList.add(
       "flex",
@@ -53,12 +64,20 @@ export const populateBlogs = (
       }</p>
       <div class="flex items-center justify-between">
         <div class="flex gap-5">
-          <button class="flex px-2 py-1 rounded-2xl bg-gray-200 text-sm font-semibold">Website</button>
-          <span class="font-light text-[#6b6b6b] sm:flex hidden">${"Selected for you"}</span>
+          <button class="flex px-2 py-1 rounded-2xl bg-gray-200 text-sm font-semibold">${
+            blog.topics.topic
+          }</button>
+          <span class="font-light text-[#6b6b6b] sm:flex hidden">Selected for you</span>
         </div>
         <div class="flex gap-5 px-10">
           <button class="h-5 w-5">
-            <img src="bookmark.png" alt="" class="w-full h-full object-cover" />
+            <img src=${
+              blogsInReadingList.includes(blog.id)
+                ? "bookmark-filled.png"
+                : "bookmark.png"
+            } alt="" class="w-full h-full object-cover" id="save-btn-${
+      blog.id
+    }"/>
           </button>
         </div>
       </div>
@@ -76,12 +95,32 @@ export const populateBlogs = (
     anchor.appendChild(blogDiv);
 
     containerElement.appendChild(anchor);
+
+    const saveBtn = document.querySelector(
+      `#save-btn-${blog.id}`
+    ) as HTMLElement;
+    saveBtn.addEventListener("click", async (e: Event) => {
+      e.preventDefault();
+      try {
+        const res = await makeRequest.post(`/readingList?blogId=${blog.id}`);
+        if (res.status == 200) {
+          toggleIcon(
+            saveBtn as HTMLImageElement,
+            "bookmark.png",
+            "bookmark-filled.png"
+          );
+          showToast("success", res.data);
+        }
+      } catch (error) {
+        showToast("failed", "Sign in to save. ☹️");
+      }
+    });
   });
 };
 
 export const populateBlogContent = (
   containerElement: HTMLElement,
-  content: Array<
+  contents: Array<
     | ParagraphContent
     | HeadingContent
     | CodeContent
@@ -89,7 +128,7 @@ export const populateBlogContent = (
     | EmbedContent
   >
 ) => {
-  content.forEach((content) => {
+  contents.forEach((content) => {
     const paragraphElement = document.createElement(
       "p"
     ) as HTMLParagraphElement;
@@ -109,6 +148,9 @@ export const populateBlogContent = (
     const anchorElement = document.createElement("a") as HTMLAnchorElement;
     anchorElement.className = "text-[blue] underline";
 
+    const pre: HTMLPreElement = document.createElement("pre");
+    const codeElement: HTMLElement = document.createElement("code");
+
     switch (content.type) {
       case "paragraph":
         paragraphElement.innerText = content.text;
@@ -124,10 +166,20 @@ export const populateBlogContent = (
         break;
       case "embed":
         anchorElement.href = content.url;
+        anchorElement.innerText = content.url;
         containerElement.appendChild(anchorElement);
+        break;
+      case "code":
+        codeElement.classList.add(`language-${content.language}`);
+        codeElement.textContent = content.code;
+        pre.appendChild(codeElement);
+        containerElement.appendChild(pre);
+        hljs.highlightElement(codeElement);
         break;
       default:
         break;
     }
   });
 };
+
+

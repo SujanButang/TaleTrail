@@ -68,7 +68,9 @@
               <span class="font-semibold" id="author-name"> Sujan Rai </span>
               <button class="text-[#1a8917]">Follow</button>
             </div>
-            <span class="font-light text-sm" id="published-date"> March 23, 2024 </span>
+            <span class="font-light text-sm" id="published-date">
+              March 23, 2024
+            </span>
           </div>
         </div>
         <div
@@ -80,9 +82,10 @@
                 src="../../../heart.png"
                 alt=""
                 class="h-[100%] w-[100%] object-cover"
+                id="like-btn"
               />
             </button>
-            <span class="text-[#6b6b6b] text-sm">21</span>
+            <span class="text-[#6b6b6b] text-sm" id="like-count">21</span>
             <button class="h-5 w-5 overflow-hidden object-cover">
               <img
                 src="../../../comment.png"
@@ -97,6 +100,7 @@
                 src="../../../bookmark.png"
                 alt=""
                 class="h-[100%] w-[100%] object-cover"
+                id="bookmark-btn"
               />
             </button>
             <button class="h-5 w-5 overflow-hidden object-cover">
@@ -118,6 +122,8 @@
         </figure>
         <p class="text-xl text-justify" id="description"></p>
       </div>
+      <div class="flex flex-col gap-10" id="blog-content"></div>
+      <!--End og blog-->
       <div class="flex items-center justify-between py-3 px-2">
         <div class="flex items-center gap-3">
           <button class="h-4 w-4 overflow-hidden object-cover">
@@ -125,9 +131,10 @@
               src="../../../heart.png"
               alt=""
               class="h-[100%] w-[100%] object-cover"
+              id="like-btn"
             />
           </button>
-          <span class="text-[#6b6b6b] text-sm">21</span>
+          <span class="text-[#6b6b6b] text-sm" id="like-count">21</span>
           <button class="h-5 w-5 overflow-hidden object-cover">
             <img
               src="../../../comment.png"
@@ -142,6 +149,7 @@
               src="../../../bookmark.png"
               alt=""
               class="h-[100%] w-[100%] object-cover"
+              id="bookmark-btn"
             />
           </button>
           <button class="h-5 w-5 overflow-hidden object-cover">
@@ -184,233 +192,14 @@
       <div class="flex flex-col gap-3">
         <h1 class="text-2xl font-bold">More from Sujan Rai</h1>
       </div>
-      <div class="flex flex-wrap gap-10">
-        <div class="max-h-[400px] w-[335px] flex-col gap-3 flex cursor-pointer">
-          <figure class="h-[40%]">
-            <img
-              src="https://miro.medium.com/v2/resize:fit:1019/0*RtVi71Ri2j2cc2yz"
-              alt=""
-              class="h-full w-full object-cover"
-            />
-          </figure>
-          <figure class="flex items-center gap-5">
-            <img
-              src="../../../no-profile.jpg"
-              alt=""
-              class="h-5 w-5 object-cover rounded-full"
-              id="author-image"
-            />
-            <span class="font-thin text-sm">Sujan Rai</span>
-          </figure>
-          <h1 class="text-xl font-bold">
-            The title of this blog is some random stuffs
-          </h1>
-          <p class="leading-[1.5em] h-[3em] overflow-hidden">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit
-            obcaecati placeat, magni totam a qui temporibus facilis? Numquam
-            accusamus similique eum necessitatibus sunt aspernatur totam. Alias
-            voluptas esse provident dolore?
-          </p>
-          <span class="text-sm font-light"> March 23, 2023 </span>
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <button class="h-4 w-4 overflow-hidden object-cover">
-                <img
-                  src="../../../heart.png"
-                  alt=""
-                  class="h-[100%] w-[100%] object-cover"
-                />
-              </button>
-              <span class="text-[#6b6b6b] text-sm">21</span>
-              <button class="h-5 w-5 overflow-hidden object-cover">
-                <img
-                  src="../../../comment.png"
-                  alt=""
-                  class="h-[100%] w-[100%] object-cover"
-                />
-              </button>
-            </div>
-            <div class="flex items-center gap-3">
-              <button class="h-5 w-5 overflow-hidden object-cover">
-                <img
-                  src="../../../bookmark.png"
-                  alt=""
-                  class="h-[100%] w-[100%] object-cover"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="max-h-[400px] w-[335px] flex-col gap-3 flex cursor-pointer">
-          <figure class="h-[40%]">
-            <img
-              src="https://miro.medium.com/v2/resize:fit:1019/0*RtVi71Ri2j2cc2yz"
-              alt=""
-              class="h-full w-full object-cover"
-            />
-          </figure>
-          <figure class="flex items-center gap-5">
-            <img
-              src="../../../no-profile.jpg"
-              alt=""
-              class="h-5 w-5 object-cover rounded-full"
-              id="author-image"
-            />
-            <span class="font-thin text-sm">Sujan Rai</span>
-          </figure>
-          <h1 class="text-xl font-bold">
-            The title of this blog is some random stuffs
-          </h1>
-          <p class="leading-[1.5em] h-[3em] overflow-hidden">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit
-            obcaecati placeat, magni totam a qui temporibus facilis? Numquam
-            accusamus similique eum necessitatibus sunt aspernatur totam. Alias
-            voluptas esse provident dolore?
-          </p>
-          <span class="text-sm font-light"> March 23, 2023 </span>
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <button class="h-4 w-4 overflow-hidden object-cover">
-                <img
-                  src="../../../heart.png"
-                  alt=""
-                  class="h-[100%] w-[100%] object-cover"
-                />
-              </button>
-              <span class="text-[#6b6b6b] text-sm">21</span>
-              <button class="h-5 w-5 overflow-hidden object-cover">
-                <img
-                  src="../../../comment.png"
-                  alt=""
-                  class="h-[100%] w-[100%] object-cover"
-                />
-              </button>
-            </div>
-            <div class="flex items-center gap-3">
-              <button class="h-5 w-5 overflow-hidden object-cover">
-                <img
-                  src="../../../bookmark.png"
-                  alt=""
-                  class="h-[100%] w-[100%] object-cover"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="max-h-[400px] w-[335px] flex-col gap-3 flex cursor-pointer">
-          <figure class="h-[40%]">
-            <img
-              src="https://miro.medium.com/v2/resize:fit:1019/0*RtVi71Ri2j2cc2yz"
-              alt=""
-              class="h-full w-full object-cover"
-            />
-          </figure>
-          <figure class="flex items-center gap-5">
-            <img
-              src="../../../no-profile.jpg"
-              alt=""
-              class="h-5 w-5 object-cover rounded-full"
-              id="author-image"
-            />
-            <span class="font-thin text-sm">Sujan Rai</span>
-          </figure>
-          <h1 class="text-xl font-bold">
-            The title of this blog is some random stuffs
-          </h1>
-          <p class="leading-[1.5em] h-[3em] overflow-hidden">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit
-            obcaecati placeat, magni totam a qui temporibus facilis? Numquam
-            accusamus similique eum necessitatibus sunt aspernatur totam. Alias
-            voluptas esse provident dolore?
-          </p>
-          <span class="text-sm font-light"> March 23, 2023 </span>
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <button class="h-4 w-4 overflow-hidden object-cover">
-                <img
-                  src="../../../heart.png"
-                  alt=""
-                  class="h-[100%] w-[100%] object-cover"
-                />
-              </button>
-              <span class="text-[#6b6b6b] text-sm">21</span>
-              <button class="h-5 w-5 overflow-hidden object-cover">
-                <img
-                  src="../../../comment.png"
-                  alt=""
-                  class="h-[100%] w-[100%] object-cover"
-                />
-              </button>
-            </div>
-            <div class="flex items-center gap-3">
-              <button class="h-5 w-5 overflow-hidden object-cover">
-                <img
-                  src="../../../bookmark.png"
-                  alt=""
-                  class="h-[100%] w-[100%] object-cover"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="max-h-[400px] w-[335px] flex-col gap-3 flex cursor-pointer">
-          <figure class="h-[40%]">
-            <img
-              src="https://miro.medium.com/v2/resize:fit:1019/0*RtVi71Ri2j2cc2yz"
-              alt=""
-              class="h-full w-full object-cover"
-            />
-          </figure>
-          <figure class="flex items-center gap-5">
-            <img
-              src="../../../no-profile.jpg"
-              alt=""
-              class="h-5 w-5 object-cover rounded-full"
-              id="author-image"
-            />
-            <span class="font-thin text-sm">Sujan Rai</span>
-          </figure>
-          <h1 class="text-xl font-bold">
-            The title of this blog is some random stuffs
-          </h1>
-          <p class="leading-[1.5em] h-[3em] overflow-hidden">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit
-            obcaecati placeat, magni totam a qui temporibus facilis? Numquam
-            accusamus similique eum necessitatibus sunt aspernatur totam. Alias
-            voluptas esse provident dolore?
-          </p>
-          <span class="text-sm font-light"> March 23, 2023 </span>
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <button class="h-4 w-4 overflow-hidden object-cover">
-                <img
-                  src="../../../heart.png"
-                  alt=""
-                  class="h-[100%] w-[100%] object-cover"
-                />
-              </button>
-              <span class="text-[#6b6b6b] text-sm">21</span>
-              <button class="h-5 w-5 overflow-hidden object-cover">
-                <img
-                  src="../../../comment.png"
-                  alt=""
-                  class="h-[100%] w-[100%] object-cover"
-                />
-              </button>
-            </div>
-            <div class="flex items-center gap-3">
-              <button class="h-5 w-5 overflow-hidden object-cover">
-                <img
-                  src="../../../bookmark.png"
-                  alt=""
-                  class="h-[100%] w-[100%] object-cover"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="flex flex-wrap gap-10" id="more-blog-container"></div>
     </footer>
     <script type="module" src="./blog.ts"></script>
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/vs2015.min.css"
+    />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   </body>
 </html>

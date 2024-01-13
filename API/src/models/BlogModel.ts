@@ -4,6 +4,7 @@ import {
   CreatedAt,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
   UpdatedAt,
@@ -16,6 +17,7 @@ import {
   ImageContent,
   ParagraphContent,
 } from "../interfaces/blogInterface";
+import { LikeModel } from "./LikeModel";
 
 type BlogContent = Array<
   ParagraphContent | HeadingContent | CodeContent | ImageContent
@@ -75,7 +77,13 @@ export class BlogModel extends Model {
 
   @UpdatedAt
   declare updated_at: Date;
-  
- @BelongsTo(()=>UserModel)
- declare author:UserModel[];
+
+  @BelongsTo(() => UserModel)
+  declare author: UserModel[];
+
+  @BelongsTo(() => TopicModel)
+  declare topics: TopicModel[];
+
+  @HasMany(() => LikeModel)
+  declare likes: LikeModel[];
 }

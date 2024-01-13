@@ -1,6 +1,11 @@
 import { NextFunction, Response, Request } from "express";
 import { IBlogRequest } from "../interfaces/blogInterface";
-import { createBlog, getAllBlogs, getBlogById } from "../services/blogService";
+import {
+  createBlog,
+  getAllBlogs,
+  getBlogById,
+  getUserBlog,
+} from "../services/blogService";
 import UnauthenticatedError from "../errors/unAuthenticatedError";
 import { getTopicId, topicExists } from "../models/TopicModel";
 import { addTopic } from "../services/topicService";
@@ -13,6 +18,7 @@ export const handleNewBlog = async (
 ) => {
   try {
     const { blog } = req.body;
+    console.log(blog);
     const user = res.locals.user.userId;
     const topicExist = await topicExists(blog.topic);
     if (!topicExist) {
@@ -49,10 +55,24 @@ export const handleGetSingleBlog = async (
   next: NextFunction
 ) => {
   try {
-    const {blogId} = req.query;
+    const { blogId } = req.query;
     console.log(blogId);
     const data = await getBlogById(blogId as string);
     res.status(data.status).json(data.data);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const handleUserBlog = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { userId } = req.query;
+    const data = await getUserBlog(userId as string);
+    res.status(data.status).json(data.blogs);
   } catch (error) {
     next(error);
   }

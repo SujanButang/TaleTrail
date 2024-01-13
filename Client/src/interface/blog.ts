@@ -27,11 +27,11 @@ export interface ImageContent {
 }
 
 export interface IBlog {
-  id:string;
+  id: string;
   title: string;
   description: string;
   cover_image: string;
-  topic: string;
+  topics: { topic: string };
   content: Array<
     | ParagraphContent
     | HeadingContent
@@ -40,10 +40,10 @@ export interface IBlog {
     | EmbedContent
   >;
   author: IUser;
-  created_at:Date;
+  created_at: Date;
 }
 
-export interface IBlogSubmit{
+export interface IBlogSubmit {
   title: string;
   description: string;
   cover_image: string;

@@ -12,6 +12,9 @@ const getStartedBtn: HTMLElement = document.querySelector(
 const writeLink: HTMLAnchorElement = document.querySelector(
   "#write-link"
 ) as HTMLAnchorElement;
+const topicContainer = document.querySelector(
+  "#topic-container"
+) as HTMLElement;
 
 document.addEventListener("DOMContentLoaded", async () => {
   const cookie = getCookie("accessToken");
@@ -25,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 export const getBlogs = async () => {
   try {
-    const res = await makeRequest.get("/blog?page=1&size=4");
+    const res = await makeRequest.get("/blog?page=1&size=6");
     const blogContainer = document.querySelector(
       "#blog-container"
     ) as HTMLElement;
@@ -40,4 +43,39 @@ export const getBlogs = async () => {
   }
 };
 
+const getTopics = async () => {
+  try {
+    const res = await makeRequest.get("/topic?page=1&size=7");
+    const topicData: Array<{
+      id: string;
+      topic: string;
+      created_at: Date;
+      updated_at: Date;
+    }> = res.data;
+    topicData.forEach(
+      (topic: {
+        id: string;
+        topic: string;
+        created_at: Date;
+        updated_at: Date;
+      }) => {
+        const topicBtn = document.createElement("button") as HTMLButtonElement;
+        topicBtn.className =
+          "flex px-3 py-2 rounded-2xl bg-[#f2f2f2] text-sm font-semibold text-[#242424]";
+        topicBtn.innerText = topic.topic;
+        topicContainer.appendChild(topicBtn);
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    const errorMessage =
+      typeof error === "object" && error !== null
+        ? (error as IHTTPError)?.response?.data?.message
+        : "";
+
+    showToast("failed", errorMessage as string);
+  }
+};
+
 getBlogs();
+getTopics();

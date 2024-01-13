@@ -83,3 +83,46 @@ export const toggleModal = (modal: HTMLElement) => {
     toggleClass(modal, { add: "hidden", remove: "flex" });
   }
 };
+
+export const toggleIcon = (
+  imageElement: HTMLImageElement,
+  image1: string,
+  image2: string
+) => {
+  if (imageElement.src == `${window.location.origin}/${image1}`) {
+    imageElement.src = `${window.location.origin}/${image2}`;
+  } else {
+    imageElement.src = `${window.location.origin}/${image1}`;
+  }
+};
+
+export const userLoggedIn = async () => {
+  try {
+    const cookie = getCookie("accessToken");
+    if (!cookie) return false;
+    const loggedIn = cookieValid();
+    if (!loggedIn) return false;
+    return true;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const blogInReadingList = async (): Promise<
+  | Array<{
+      id: string;
+      blogId: string;
+      userId: string;
+      created_at: Date;
+      updated_at: Date;
+    }>
+  | []
+> => {
+  try {
+    const res = await makeRequest.get("/readingList");
+    return res.data;
+  } catch (error) {
+    return [];
+    console.log(error);
+  }
+};

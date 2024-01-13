@@ -27,7 +27,7 @@ export interface IBlog {
   title: string;
   description: string;
   topic: string;
-  coverImage: string;
+  cover_image: string;
   content: Array<
     ParagraphContent | HeadingContent | CodeContent | ImageContent
   >;

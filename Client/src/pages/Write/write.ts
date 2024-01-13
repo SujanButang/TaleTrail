@@ -5,11 +5,19 @@ import {
   HeadingContent,
   IBlogSubmit,
   ImageContent,
+  ParagraphContent,
 } from "../../interface/blog";
 import { IHTTPError } from "../../interface/httpError";
 import { showToast, toggleModal } from "../../utils/utils";
 import { handleImageUpload } from "./imageUpload";
 import { handleTextareaInput, setupTextareas } from "./textArea";
+
+//nav
+const logo = document.querySelector("#logo") as HTMLElement;
+logo.addEventListener(
+  "click",
+  () => (window.location.href = window.location.origin)
+);
 
 const imageUpload = document.querySelector("#image-upload") as HTMLInputElement;
 
@@ -43,7 +51,10 @@ const observeDocumentChanges = () => {
 
 const publishBtn = document.querySelector("#publish") as HTMLButtonElement;
 publishBtn.addEventListener("click", async (): Promise<void> => {
-  const titleElement = document.querySelector("#title") as HTMLInputElement;
+  const titleElement = document.querySelector(
+    "#title-input"
+  ) as HTMLInputElement;
+  console.log(titleElement.value);
   if (titleElement.value == "") {
     showToast("fail", "Please give your blog a title. ☹️");
     return;
@@ -76,6 +87,7 @@ publishBtn.addEventListener("click", async (): Promise<void> => {
     document.querySelectorAll(".input-div")
   ) as HTMLElement[];
   inputs.forEach((input: HTMLElement) => {
+    console.log(input);
     //image input
     const imgElement = input.querySelector("img");
     if (imgElement) {
@@ -84,6 +96,7 @@ publishBtn.addEventListener("click", async (): Promise<void> => {
         url: imgElement.src as string,
       };
       data.content.push(image);
+      return;
     }
 
     //code input
@@ -95,6 +108,7 @@ publishBtn.addEventListener("click", async (): Promise<void> => {
         code: codeElement.value,
       };
       data.content.push(code);
+      return;
     }
 
     //embed input
@@ -105,6 +119,7 @@ publishBtn.addEventListener("click", async (): Promise<void> => {
         url: embedElement.value as string,
       };
       data.content.push(embed);
+      return;
     }
 
     //heading input
@@ -115,10 +130,24 @@ publishBtn.addEventListener("click", async (): Promise<void> => {
         text: headingElement.value as string,
       };
       data.content.push(heading);
+      return;
+    }
+
+    const textAreaElement = input.querySelector(
+      "textarea"
+    ) as HTMLTextAreaElement;
+
+    if (textAreaElement) {
+      const paragraph: ParagraphContent = {
+        type: "paragraph",
+        text: textAreaElement.value,
+      };
+      data.content.push(paragraph);
+      return;
     }
   });
 
-  //
+  //paragraph
 
   try {
     const res = await makeRequest.post("/blog", { blog: data });
