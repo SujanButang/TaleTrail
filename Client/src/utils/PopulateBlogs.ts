@@ -10,18 +10,14 @@ import moment from "moment";
 import hljs from "highlight.js";
 import { makeRequest } from "../axios/axios";
 import { blogInReadingList, showToast, toggleIcon } from "./utils";
+import { IReadingList } from "../interface/readingList";
 
 export const populateBlogs = async (
   containerElement: HTMLElement,
   blogs: Array<IBlog>
 ) => {
-  const readingList = (await blogInReadingList()) as {
-    id: string;
-    blogId: string;
-    userId: string;
-    created_at: Date;
-    updated_at: Date;
-  }[];
+  console.log(blogs);
+  const readingList = (await blogInReadingList()) as IReadingList[] | [];
   const blogsInReadingList = readingList.map((blog) => blog.blogId);
   blogs.forEach((blog: IBlog) => {
     const blogDiv = document.createElement("div") as HTMLElement;
@@ -40,8 +36,8 @@ export const populateBlogs = async (
     authorInfo.innerHTML = `<figure class="w-8 h-8 rounded-full object-cover overflow-hidden">
     <img
       src=${
-        blog.author.profileImage !== undefined
-          ? blog.author.profileImage
+        blog.author.profile_image !== null
+          ? blog.author.profile_image
           : `${window.location.origin}/no-profile.jpg`
       }
       alt=""

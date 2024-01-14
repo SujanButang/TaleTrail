@@ -13,6 +13,8 @@ import { populateBlogContent } from "../../utils/PopulateBlogs";
 import { handleBookmark } from "./bookmark";
 import { handleLike } from "./like";
 import { handleMoreBlog } from "./userblog";
+import { getUserDetails, handleUserFollow } from "./authorDetails";
+import { handleComment } from "./comment";
 
 //nav
 const homeLinkDiv = document.querySelector("#home-link") as HTMLElement;
@@ -31,6 +33,29 @@ const writeLink: HTMLAnchorElement = document.querySelector(
   "#write-link"
 ) as HTMLAnchorElement;
 
+const profileBtn = document.querySelector("#profile-btn") as HTMLElement;
+profileBtn.addEventListener("click", (e: Event) => {
+  e.preventDefault();
+  window.location.href =
+    window.location.origin +
+    "/src/pages/Profile/profile.html?userId=" +
+    userData.id;
+});
+
+signInBtn.addEventListener(
+  "click",
+  () =>
+    (window.location.href =
+      window.location.origin + "/src/pages/Login/login.html")
+);
+
+getStartedBtn.addEventListener(
+  "click",
+  () =>
+    (window.location.href =
+      window.location.origin + "/src/pages/Register/register.html")
+);
+
 const profileContainer = document.querySelector("#profile") as HTMLElement;
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -47,9 +72,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 const userImage = document.querySelector("#user-image") as HTMLImageElement;
 const userEmail = document.querySelector("#user-email") as HTMLSpanElement;
 const userData = JSON.parse(localStorage.getItem("user") as string);
-userEmail.innerText = userData.email;
-if (userData.profileImage) {
-  userImage.src = userData.profileImage;
+if (userData) {
+  userEmail.innerText = userData.email || "";
+  if (userData.profileImage) {
+    userImage.src = userData.profileImage;
+  }
 }
 
 const profileOptionModal = document.querySelector(
@@ -112,6 +139,8 @@ export const getBlogContents = async (id: string) => {
     const blogContent = res.data.content;
     populateBlogContent(blogContentElement, blogContent);
     handleMoreBlog(userId);
+    getUserDetails(userId);
+    handleUserFollow(userId);
   } catch (error) {
     const errorMessage =
       typeof error === "object" && error !== null
@@ -126,3 +155,31 @@ getBlogContents(blogId);
 
 handleBookmark(blogId);
 handleLike(blogId, "like-btn", "like-count");
+handleComment(blogId);
+
+const commentInput = document.querySelector("textarea") as HTMLTextAreaElement;
+const commentSubmitBtn = document.querySelector(
+  "#comment-submit"
+) as HTMLButtonElement;
+commentSubmitBtn.addEventListener("click", async (e: Event) => {
+  e.preventDefault();
+  try {
+    const comment = commentInput.value;
+    if (comment.trim() !== "") {
+      const res = await makeRequest.post("/comment?blogId=" + blogId, {
+        comment: comment,
+      });
+      showToast("success", res.data);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    }
+  } catch (error) {
+    const errorMessage =
+      typeof error === "object" && error !== null
+        ? (error as IHTTPError)?.response?.data?.message
+        : "";
+
+    showToast("failed", errorMessage as string);
+  }
+});

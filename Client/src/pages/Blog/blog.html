@@ -7,7 +7,7 @@
     <link rel="icon" href="../../../logo.png" type="image/x-icon" />
     <title>Tale-Trail</title>
   </head>
-  <body class="h-[100vh]">
+  <body class="h-[100vh] relative">
     <header class="lg:px-32 md:px-20 px-10 flex items-center justify-between h-[10%] border-b border-black sticky">
       <figure class="flex items-center justify-center m-0 p-0 h-7 cursor-pointer" id="home-link">
         <img src="../../../logo.png" alt="logo" class="h-[100%] w-[100%]" />
@@ -21,21 +21,21 @@
             </a>
           </li>
           <li class="cursor-pointer sm:flex hidden" id="sign-in">
-            <a href="./src/pages/Login/login.html"> Sign in </a>
+           Sign in
           </li>
           <li class="cursor-pointer" id="get-started">
             <button id="register-btn" class="bg-[#1a8917] py-2 px-3 rounded-3xl text-white hover:bg-[#156d12]">
-              <a href="./src/pages/Register/register.html"> Get Started </a>
+               Get Started
             </button>
           </li>
           <li class="cursor-pointer hidden" id="profile">
-            <figure class="h-8 w-8 rounded-full relative" id="user-btn">
-              <img src="../../../no-profile.jpg" alt="" class="h-full w-full object-cover" id="user-image"/>
+            <figure class=" relative" id="user-btn">
+              <img src="../../../no-profile.jpg" alt="" class="h-8 w-8 rounded-full object-cover" id="user-image"/>
               <div
                 class="hidden border w-52 h-64 bg-white absolute rounded-sm flex-col shadow left-[-80px] top-[30px] py-5 px-5 gap-5"
                 id="profile-option-div">
                 <ul class="flex flex-col gap-3 px-1">
-                  <li class="flex items-center gap-2">
+                  <li class="flex items-center gap-2" id="profile-btn">
                     <img src="../../../user.png" alt="" class="h-4 w-4 object-cover">
                     <span class="text-[#757575] hover:text-[black] text-lg">Profile</span>
                   </li>
@@ -89,8 +89,8 @@
             </figure>
             <div class="flex flex-col">
               <div class="flex items-center gap-5">
-                <span class="font-semibold" id="author-name"> Sujan Rai </span>
-                <button class="text-[#1a8917]">Follow</button>
+                <span class="font-semibold" id="author-name"> </span>
+                <button class="text-[#1a8917]" id="follow-btn">Follow</button>
               </div>
               <span class="font-light text-sm" id="published-date">
                 March 23, 2024
@@ -110,7 +110,7 @@
                 />
               </button>
               <span class="text-[#6b6b6b] text-sm" id="like-count">21</span>
-              <button class="h-5 w-5 overflow-hidden object-cover">
+              <button class="h-5 w-5 overflow-hidden object-cover" id="comment-btn">
                 <img
                   src="../../../comment.png"
                   alt=""
@@ -164,6 +164,7 @@
                 src="../../../comment.png"
                 alt=""
                 class="h-[100%] w-[100%] object-cover"
+                id="comment-btn"
               />
             </button>
           </div>
@@ -188,7 +189,7 @@
       </div>
     </main>
     <footer class="bg-[#f9f9f9] flex flex-col w-full gap-10 py-10 items-center">
-      <div class="flex flex-col max-w-[900px] gap-10">
+      <div class="flex flex-col max-w-[900px] gap-10 w-full">
         <div class="flex flex-col gap-3">
           <figure class="h-16 w-16">
             <img
@@ -199,28 +200,62 @@
             />
           </figure>
           <div class="flex items-center justify-between">
-            <span class="text-2xl font-bold">Written by Sujan Rai</span>
+            <span class="text-2xl font-bold" >Written by <span id="author-name">
+
+              
+            </span>
+          </span>
             <button
-              class="bg-[#1a8917] hover:bg-[#156d12] px-5 py-2 rounded-3xl text-white"
+              class="bg-[#1a8917] hover:bg-[#156d12] px-5 py-2 rounded-3xl text-white" id="follow-btn"
             >
               Follow
             </button>
           </div>
-          <span>38K followers</span>
-          <p class="pb-5">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum
-            earum, iure sunt numquam officiis voluptatibus quo magnam
-            consequuntur ea nesciunt, labore vitae. Delectus quidem tenetur
-            commodi sit rerum sed voluptatem?
+          <span><span id="follower-count"></span> followers</span>
+          <p class="pb-5" id="author-bio">
+           
           </p>
           <hr />
         </div>
         <div class="flex flex-col gap-3">
-          <h1 class="text-2xl font-bold">More from Sujan Rai</h1>
+          <h1 class="text-2xl font-bold">More from <span id="author-name">
+            
+          </span>
+        </h1>
         </div>
         <div class="flex flex-wrap gap-10" id="more-blog-container"></div>
       </div>
     </footer>
+
+    <div class="fixed right-0 top-0 h-full w-96 hidden flex-col bg-white shadow-md px-4 py-5 gap-8 overflow-y-scroll" id="comment-modal">
+      <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-bold">Responses (       
+          <span id="comment-count">3</span>
+          )
+        </h1>
+        <button class="h-4 w-4" id="close-comment"><img src="../../../close.png" alt="" class="h-full w-full object-cover"></button>
+      </div>
+      <div class="w-full h-56 border shadow-sm rounded-sm flex flex-col p-3 gap-5">
+        <div class="flex items-center gap-3 ">
+          <figure class="h-10 w-10 rounded-full">
+            <img src="../../../no-profile.jpg" alt="" class="h-full w-full object-cover" id="comment-user-image">
+          </figure>
+          <span class="text-lg font-bold" id="comment-user"></span>
+        </div>
+        <textarea name="comment" id="comment-area" placeholder="What are your thoughts?" class="resize-none focus:outline-none h-24"></textarea>
+        <div class="flex items-center gap-5 justify-end text-sm">
+          <button>Cancel</button>
+          <button class="bg-[#1a8917] py-2 px-3 rounded-3xl text-white hover:bg-[#156d12]" id="comment-submit">Respond</button>
+        </div>
+      </div>
+      <hr>
+      <div id="comments-container" class="flex flex-col gap-8">
+
+      </div>  
+    </div>
+
+
+    </div>
     <script type="module" src="./blog.ts"></script>
     <link
       rel="stylesheet"

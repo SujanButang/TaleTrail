@@ -42,7 +42,7 @@ export const handleLike = async (
           showToast("failed", errorMessage as string);
         }
       } else {
-        showToast("failed", "Log in first to save! ☹️");
+        showToast("failed", "Log in first to like! ☹️");
       }
     });
   });
@@ -58,7 +58,11 @@ export const handleLikeCount = async (blogId: string, spanId: string) => {
 };
 
 export const handleHasLiked = async (blogId: string) => {
-  const hasLikeRes = await makeRequest.get(`/like/hasLiked?blogId=${blogId}`);
-  const hasLiked = hasLikeRes.data;
-  return hasLiked;
+  try {
+    const hasLikeRes = await makeRequest.get(`/like/hasLiked?blogId=${blogId}`);
+    const hasLiked = hasLikeRes.data;
+    return hasLiked;
+  } catch (error) {
+    return false;
+  }
 };

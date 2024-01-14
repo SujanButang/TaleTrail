@@ -8,9 +8,22 @@ import {
   ParagraphContent,
 } from "../../interface/blog";
 import { IHTTPError } from "../../interface/httpError";
-import { showToast, toggleModal } from "../../utils/utils";
+import {
+  cookieValid,
+  getCookie,
+  showToast,
+  toggleModal,
+} from "../../utils/utils";
 import { handleImageUpload } from "./imageUpload";
 import { handleTextareaInput, setupTextareas } from "./textArea";
+
+const cookie = getCookie("accessToken");
+const validCookie = cookieValid().then(() => {
+  if (!validCookie || !cookie) {
+    console.log("here");
+    window.location.href = window.location.origin;
+  }
+});
 
 //nav
 const logo = document.querySelector("#logo") as HTMLElement;

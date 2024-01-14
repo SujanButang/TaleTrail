@@ -7,6 +7,7 @@ import { UserRoutes } from "./user";
 import { ReadingListRoutes } from "./readingListRoute";
 import { LikeRoutes } from "./likeRoute";
 import { RelationRoutes } from "./relationshipRoute";
+import { CommentRoutes } from "./commentRoute";
 
 const router = Router();
 
@@ -17,5 +18,6 @@ router.use("/user", UserRoutes);
 router.use("/readingList", verifyAuth, ReadingListRoutes);
 router.use("/like", LikeRoutes);
 router.use("/relationship", RelationRoutes);
+router.use("/comment", CommentRoutes);
 
 export default router;

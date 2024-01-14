@@ -1,31 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900;1000&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900;1000&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
-
-body{
-   font-family: 'Nunito', sans-serif;;
+body {
+  font-family: "Nunito", sans-serif;
 }
 
-button{
-   cursor: pointer;
+button {
+  cursor: pointer;
 }
 /* Hide scrollbar for Chrome, Safari and Opera */
 #blog-container::-webkit-scrollbar {
-   display: none;
- }
- 
- /* Hide scrollbar for IE, Edge and Firefox */
- #blog-container {
-   -ms-overflow-style: none;  /* IE and Edge */
-   scrollbar-width: none;  /* Firefox */
- }
+  display: none;
+}
 
- .truncate-overflow {
-   overflow: hidden;
-   display: -webkit-box;
-   -webkit-line-clamp: 4; /* Number of lines to show */
-   -webkit-box-orient: vertical;
- }
+/* Hide scrollbar for IE, Edge and Firefox */
+#blog-container {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+#comment-modal::-webkit-scrollbar {
+  display: none;
+}
+
+#comment-modal {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;
+}
+
+.truncate-overflow {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* Number of lines to show */
+  -webkit-box-orient: vertical;
+}

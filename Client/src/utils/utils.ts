@@ -1,6 +1,7 @@
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 import { makeRequest } from "../axios/axios";
+import { IReadingList } from "../interface/readingList";
 
 export interface ClassToggleOptions {
   add?: string;
@@ -70,12 +71,13 @@ export const getCookie = (name: string): string | null => {
  * @returns A Promise<boolean> representing the validity of the user's session.
  */
 export const cookieValid = async (): Promise<boolean> => {
-  const res = await makeRequest.get("/user/me");
-  if (res.status == 200) {
+  try {
+    const res = await makeRequest.get("/user/me");
     localStorage.setItem("user", JSON.stringify(res.data));
     return true;
+  } catch (error) {
+    return false;
   }
-  return false;
 };
 
 export const toggleModal = (modal: HTMLElement) => {
@@ -99,6 +101,11 @@ export const toggleIcon = (
   }
 };
 
+export const toggleFollowingStatus = (button: HTMLButtonElement) => {
+  if (button.innerText == "Follow") button.innerText = "Following";
+  else button.innerText = "Follow";
+};
+
 export const userLoggedIn = async () => {
   try {
     const cookie = getCookie("accessToken");
@@ -112,21 +119,13 @@ export const userLoggedIn = async () => {
 };
 
 export const blogInReadingList = async (): Promise<
-  | Array<{
-      id: string;
-      blogId: string;
-      userId: string;
-      created_at: Date;
-      updated_at: Date;
-    }>
-  | []
+  Array<IReadingList> | []
 > => {
   try {
     const res = await makeRequest.get("/readingList");
     return res.data;
   } catch (error) {
     return [];
-    console.log(error);
   }
 };
 

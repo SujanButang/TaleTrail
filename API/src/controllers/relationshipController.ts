@@ -58,3 +58,18 @@ export const handleGetFollowings = async (
     next(error);
   }
 };
+
+export const handleCheckRelation = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = res.locals.user.userId;
+    const { authorId } = req.query;
+    const data = await relationshipExists(userId, authorId as string);
+    res.status(200).json(data);
+  } catch (error) {
+    next(error);
+  }
+};

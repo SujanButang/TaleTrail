@@ -1,5 +1,6 @@
 import { makeRequest } from "./axios/axios";
 import { IHTTPError } from "./interface/httpError";
+import { IFollowings, IUsers } from "./interface/user";
 import { populateBlogs } from "./utils/PopulateBlogs";
 import {
   cookieValid,
@@ -7,6 +8,7 @@ import {
   logout,
   showToast,
   toggleClass,
+  toggleFollowingStatus,
   toggleModal,
 } from "./utils/utils";
 
@@ -16,6 +18,15 @@ homeLinkDiv.addEventListener(
   "click",
   () => (window.location.href = window.location.origin)
 );
+
+const profileBtn = document.querySelector("#profile-btn") as HTMLElement;
+profileBtn.addEventListener("click", (e: Event) => {
+  e.preventDefault();
+  window.location.href =
+    window.location.origin +
+    "/src/pages/Profile/profile.html?userId=" +
+    userData.id;
+});
 
 const signInBtn: HTMLElement = document.querySelector(
   "#sign-in"
@@ -40,6 +51,8 @@ userBtn.addEventListener("click", (e: Event) => {
   e.preventDefault();
   toggleModal(profileOptionModal);
 });
+
+
 
 const userImage = document.querySelector("#user-image") as HTMLImageElement;
 const userEmail = document.querySelector("#user-email") as HTMLSpanElement;
@@ -121,35 +134,22 @@ const getTopics = async () => {
 
 export const getUsers = async () => {
   try {
-    const followingsRes = await makeRequest.get(
-      "/relationship/followings?userId=" + userData.id
-    );
-    console.log(followingsRes);
-    const followingIds = followingsRes.data.map(
-      (following: {
-        id: string;
-        following: {
-          id: string;
-          username: string;
-          profile_image: string;
-          bio: string;
-        };
-      }) => following.following.id
+    let followingsData = [];
+    if (userData) followingsData = await getFollowings(userData.id);
+    const followingIds = followingsData.map(
+      (following: IFollowings) => following.following.id
     );
     const usersRes = await makeRequest.get("/user/users?page=1&size=5");
-    const usersArray = usersRes.data.filter(
-      (user: {
-        id: string;
-        username: string;
-        profile_image: string;
-        bio: string;
-      }) => user.id !== JSON.parse(localStorage.getItem("user") as string).id
-    ) as Array<{
-      id: string;
-      username: string;
-      profile_image: string;
-      bio: string;
-    }>;
+    let usersArray: Array<IUsers> = [];
+    if (userData) {
+      usersArray = usersRes.data.filter(
+        (user: IUsers) =>
+          user.id !== JSON.parse(localStorage.getItem("user") as string).id
+      ) as Array<IUsers>;
+    } else {
+      usersArray = usersRes.data;
+    }
+
     const usersContainerElement = document.querySelector(
       "#users-container"
     ) as HTMLElement;
@@ -176,13 +176,30 @@ export const getUsers = async () => {
         </p>
       </div>
       <div class="h-full flex items-center justify-center">
-        <button class="border rounded-2xl text-sm p-2">${
-          followingIds.includes(user.id) ? "Following" : "Follow"
-        }</button>
+        <button class="border rounded-2xl text-sm p-2" id="follow-${user.id}">${
+        followingIds.includes(user.id) ? "Following" : "Follow"
+      }</button>
       </div>
     `;
-
       usersContainerElement.appendChild(userDiv);
+
+      const followBtn = document.querySelector(
+        `#follow-${user.id}`
+      ) as HTMLButtonElement;
+      followBtn.addEventListener("click", async (e: Event) => {
+        e.preventDefault();
+        try {
+          const res = await makeRequest.post(
+            "/relationship?followingId=" + user.id
+          );
+          if (res.status == 200) {
+            toggleFollowingStatus(followBtn);
+            showToast("success", res.data);
+          }
+        } catch (error) {
+          showToast("failed", "Sign in to start following. ☹️");
+        }
+      });
     });
   } catch (error) {
     console.log(error);
@@ -192,6 +209,20 @@ export const getUsers = async () => {
         : "";
 
     showToast("failed", errorMessage as string);
+  }
+};
+
+export const getFollowings = async (userId: string) => {
+  try {
+    if (userId) {
+      console.log(userId);
+      const res = await makeRequest.get(
+        "/relationship/followings?userId=" + userId
+      );
+      return res.data;
+    } else return [];
+  } catch (error) {
+    return [];
   }
 };
 
