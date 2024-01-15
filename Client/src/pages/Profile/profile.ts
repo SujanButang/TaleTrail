@@ -46,6 +46,7 @@ currentBio.value = userData.bio == undefined ? "" : userData.bio;
 const getUserBlogs = async (userId: string) => {
   try {
     const res = await makeRequest.get("/blog/userBlogs?userId=" + userId);
+    console.log(res.data);
     const blogContainer = document.querySelector(
       "#blog-container"
     ) as HTMLElement;
@@ -127,39 +128,41 @@ const getUserBlogs = async (userId: string) => {
         anchor.appendChild(blogDiv);
 
         blogContainer.appendChild(anchor);
+        if (userId == userData.id) {
+          const blogOptionBtn = document.querySelector(
+            `#blog-option-${blog.id}`
+          ) as HTMLButtonElement;
+          const blogOptionModal = document.querySelector(
+            `#blog-option-modal-${blog.id}`
+          ) as HTMLElement;
+          blogOptionBtn.addEventListener("click", (e: Event) => {
+            e.preventDefault();
+            toggleModal(blogOptionModal);
+          });
 
-        const blogOptionBtn = document.querySelector(
-          `#blog-option-${blog.id}`
-        ) as HTMLButtonElement;
-        const blogOptionModal = document.querySelector(
-          `#blog-option-modal-${blog.id}`
-        ) as HTMLElement;
-        blogOptionBtn.addEventListener("click", (e: Event) => {
-          e.preventDefault();
-          toggleModal(blogOptionModal);
-        });
+          const deletBlogBtn = document.querySelector(
+            `#delete-blog-${blog.id}`
+          ) as HTMLButtonElement;
+          deletBlogBtn.addEventListener("click", async (e: Event) => {
+            e.preventDefault();
+            try {
+              const res = await makeRequest.delete("/blog?blogId=" + blog.id);
+              showToast("success", res.data);
+              anchor.remove();
+            } catch (error) {
+              const errorMessage =
+                typeof error === "object" && error !== null
+                  ? (error as IHTTPError)?.response?.data?.message
+                  : "";
 
-        const deletBlogBtn = document.querySelector(
-          `#delete-blog-${blog.id}`
-        ) as HTMLButtonElement;
-        deletBlogBtn.addEventListener("click", async (e: Event) => {
-          e.preventDefault();
-          try {
-            const res = await makeRequest.delete("/blog?blogId=" + blog.id);
-            showToast("success", res.data);
-            anchor.remove();
-          } catch (error) {
-            const errorMessage =
-              typeof error === "object" && error !== null
-                ? (error as IHTTPError)?.response?.data?.message
-                : "";
-
-            showToast("failed", errorMessage as string);
-          }
-        });
+              showToast("failed", errorMessage as string);
+            }
+          });
+        }
       }
     );
   } catch (error) {
+    console.log(error);
     const errorMessage =
       typeof error === "object" && error !== null
         ? (error as IHTTPError)?.response?.data?.message
@@ -174,7 +177,7 @@ getUserBlogs(userId);
 /**
  * Gets the details of a user by making a request to the backend API endpoint.
  * Updates the corresponding HTML elements with the user data.
- * 
+ *
  * @param {string} userId - The unique identifier of the user to get details for.
  * @returns {Promise<void>} - A Promise that resolves after fetching and updating the user details.
  */
@@ -210,7 +213,7 @@ getUserDetails(userId);
 
 /**
  * Gets the list of followers for a specified user and updates the follower count element.
- * 
+ *
  * @param {string} userId - The unique identifier of the user to get followers for.
  * @returns {Promise<void>} - A Promise that resolves after fetching and updating the follower count.
  */
@@ -272,7 +275,7 @@ if (userId == userData.id) {
 
 /**
  * Handles the user's interaction with the follow button.
- * 
+ *
  * @param {string} userId - The unique identifier of the user to follow/unfollow.
  * @param {HTMLButtonElement} followBtn - The follow button element that triggers the follow action.
  * @returns {Promise<void>} - A Promise that resolves after handling the user's interaction.
