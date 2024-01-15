@@ -27,7 +27,6 @@ export const handleNewBlog = async (
 ) => {
   try {
     const { blog } = req.body;
-    console.log(blog);
     const user = res.locals.user.userId;
     const topicExist = await topicExists(blog.topic);
     if (!topicExist) {
