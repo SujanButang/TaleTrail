@@ -2,88 +2,15 @@ import { makeRequest } from "./axios/axios";
 import { IHTTPError } from "./interface/httpError";
 import { IFollowings, IUsers } from "./interface/user";
 import { populateBlogs } from "./utils/PopulateBlogs";
-import {
-  cookieValid,
-  getCookie,
-  logout,
-  showToast,
-  toggleClass,
-  toggleFollowingStatus,
-  toggleModal,
-} from "./utils/utils";
+import { showToast, toggleFollowingStatus } from "./utils/utils";
 
-//nav
-const homeLinkDiv = document.querySelector("#home-link") as HTMLElement;
-homeLinkDiv.addEventListener(
-  "click",
-  () => (window.location.href = window.location.origin)
-);
-
-const profileBtn = document.querySelector("#profile-btn") as HTMLElement;
-profileBtn.addEventListener("click", (e: Event) => {
-  e.preventDefault();
-  window.location.href =
-    window.location.origin +
-    "/src/pages/Profile/profile.html?userId=" +
-    userData.id;
-});
-
-const signInBtn: HTMLElement = document.querySelector(
-  "#sign-in"
-) as HTMLElement;
-const getStartedBtn: HTMLElement = document.querySelector(
-  "#get-started"
-) as HTMLElement;
-const writeLink: HTMLAnchorElement = document.querySelector(
-  "#write-link"
-) as HTMLAnchorElement;
 const topicContainer = document.querySelector(
   "#topic-container"
 ) as HTMLElement;
-const profileContainer = document.querySelector("#profile") as HTMLElement;
-
-const profileOptionModal = document.querySelector(
-  "#profile-option-div"
-) as HTMLElement;
-const userBtn = document.querySelector("#user-btn") as HTMLElement;
-
-userBtn.addEventListener("click", (e: Event) => {
-  e.preventDefault();
-  toggleModal(profileOptionModal);
-});
-
-
-
-const userImage = document.querySelector("#user-image") as HTMLImageElement;
-const userEmail = document.querySelector("#user-email") as HTMLSpanElement;
-const userData = JSON.parse(localStorage.getItem("user") as string);
-if (userData) {
-  userEmail.innerText = userData.email;
-  if (userData.profileImage) {
-    userImage.src = userData.profileImage;
-  }
-}
-
-const signOutButton = document.querySelector("#sign-out") as HTMLButtonElement;
-signOutButton.addEventListener("click", async () => {
-  await logout();
-  window.location.href = window.location.origin;
-});
-
-document.addEventListener("DOMContentLoaded", async () => {
-  const cookie = getCookie("accessToken");
-  if (!cookie) return;
-  const validCookie = await cookieValid();
-  if (!validCookie) return;
-  toggleClass(signInBtn, { remove: "sm:flex" });
-  toggleClass(getStartedBtn, { add: "hidden" });
-  toggleClass(profileContainer, { add: "flex", remove: "hidden" });
-  writeLink.href = window.location.origin + "/src/pages/Write/write.html";
-});
 
 export const getBlogs = async () => {
   try {
-    const res = await makeRequest.get("/blog?page=1&size=6");
+    const res = await makeRequest.get("/blog?page=1&size=20");
     const blogContainer = document.querySelector(
       "#blog-container"
     ) as HTMLElement;
@@ -132,6 +59,8 @@ const getTopics = async () => {
   }
 };
 
+const userData = JSON.parse(localStorage.getItem("user") as string);
+
 export const getUsers = async () => {
   try {
     let followingsData = [];
@@ -154,7 +83,6 @@ export const getUsers = async () => {
       "#users-container"
     ) as HTMLElement;
     usersArray.forEach((user) => {
-      console.log(user.id, followingIds);
       const userDiv = document.createElement("div") as HTMLElement;
       userDiv.className = "flex gap-2 items-center w-full";
       userDiv.innerHTML = `
@@ -170,7 +98,9 @@ export const getUsers = async () => {
         />
       </figure>
       <div class="flex flex-col w-[60%]">
-        <h1 class="font-extrabold">${user.username}</h1>
+        <h1 class="font-extrabold cursor-pointer hover:underline" id="user-profile-${
+          user.id
+        }">${user.username}</h1>
         <p class="text-sm font-light text-[#7b7b7b]">
           ${user.bio !== null ? user.bio : ""}
         </p>
@@ -182,6 +112,17 @@ export const getUsers = async () => {
       </div>
     `;
       usersContainerElement.appendChild(userDiv);
+      const userProfileBtn = document.querySelector(
+        `#user-profile-${user.id}`
+      ) as HTMLHeadingElement;
+      userProfileBtn.addEventListener(
+        "click",
+        () =>
+          (window.location.href =
+            window.location.origin +
+            "/src/pages/Profile/profile.html?userId=" +
+            user.id)
+      );
 
       const followBtn = document.querySelector(
         `#follow-${user.id}`
@@ -202,7 +143,6 @@ export const getUsers = async () => {
       });
     });
   } catch (error) {
-    console.log(error);
     const errorMessage =
       typeof error === "object" && error !== null
         ? (error as IHTTPError)?.response?.data?.message
@@ -215,7 +155,6 @@ export const getUsers = async () => {
 export const getFollowings = async (userId: string) => {
   try {
     if (userId) {
-      console.log(userId);
       const res = await makeRequest.get(
         "/relationship/followings?userId=" + userId
       );

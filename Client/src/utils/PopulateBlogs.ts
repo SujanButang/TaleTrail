@@ -16,7 +16,6 @@ export const populateBlogs = async (
   containerElement: HTMLElement,
   blogs: Array<IBlog>
 ) => {
-  console.log(blogs);
   const readingList = (await blogInReadingList()) as IReadingList[] | [];
   const blogsInReadingList = readingList.map((blog) => blog.blogId);
   blogs.forEach((blog: IBlog) => {
@@ -36,15 +35,17 @@ export const populateBlogs = async (
     authorInfo.innerHTML = `<figure class="w-8 h-8 rounded-full object-cover overflow-hidden">
     <img
       src=${
-        blog.author.profile_image !== null
-          ? blog.author.profile_image
-          : `${window.location.origin}/no-profile.jpg`
-      }
+  blog.author.profile_image !== null
+    ? blog.author.profile_image
+    : `${window.location.origin}/no-profile.jpg`
+}
       alt=""
       class="h-full w-full"
     />
   </figure>
-  <span class="font-semibold"> ${blog.author.username} </span>
+  <span class="font-semibold cursor-pointer hover:underline" id="user-profile-${
+  blog.author.id
+}"> ${blog.author.username} </span>
   <span class="font-light text-sm"> ${moment(blog.created_at).format(
     "MMMM DD, YYYY"
   )} </span>`;
@@ -57,41 +58,52 @@ export const populateBlogs = async (
     <div class="sm:w-[80%] w-full flex flex-col justify-between gap-3">
       <h1 class="md:text-2xl text-lg font-extrabold">${blog.title}</h1>
       <p class="text-justify font-medium md:flex hidden leading-[1.5em] h-[4.5em] overflow-hidden">${
-        blog.description
-      }</p>
+  blog.description
+}</p>
       <div class="flex items-center justify-between">
         <div class="flex gap-5">
-          <button class="flex px-2 py-1 rounded-2xl bg-gray-200 text-sm font-semibold">${
-            blog.topics.topic
-          }</button>
+         
           <span class="font-light text-[#6b6b6b] sm:flex hidden">Selected for you</span>
         </div>
         <div class="flex gap-5 px-10">
           <button class="h-5 w-5">
             <img src=${
-              blogsInReadingList.includes(blog.id)
-                ? `${window.location.origin}/bookmark-filled.png`
-                : `${window.location.origin}/bookmark.png`
-            } alt="" class="w-full h-full object-cover" id="save-btn-${
-      blog.id
-    }"/>
+  blogsInReadingList.includes(blog.id)
+    ? `${window.location.origin}/bookmark-filled.png`
+    : `${window.location.origin}/bookmark.png`
+} alt="" class="w-full h-full object-cover" id="save-btn-${
+  blog.id
+}"/>
           </button>
         </div>
       </div>
     </div>
     <figure class="sm:w-[20%] flex items-center justify-center object-cover">
       <img src="${
-        blog.cover_image
-      }" alt="" class="h-full w-full object-cover" />
+  blog.cover_image
+}" alt="" class="h-full w-full object-cover" />
     </figure>
   `;
-    blogDiv.appendChild(blogContent);
 
     const anchor = document.createElement("a") as HTMLAnchorElement;
     anchor.href = `${window.location.origin}/src/pages/Blog/blog.html?blogId=${blog.id}`;
-    anchor.appendChild(blogDiv);
+    anchor.appendChild(blogContent);
 
-    containerElement.appendChild(anchor);
+    blogDiv.appendChild(anchor);
+
+    containerElement.appendChild(blogDiv);
+
+    const userBtn = document.querySelector(
+      `#user-profile-${blog.author.id}`
+    ) as HTMLSpanElement;
+    userBtn.addEventListener(
+      "click",
+      () =>
+        (window.location.href =
+          window.location.origin +
+          "/src/pages/Profile/profile.html?userId=" +
+          blog.author.id)
+    );
 
     const saveBtn = document.querySelector(
       `#save-btn-${blog.id}`
@@ -135,12 +147,12 @@ export const populateBlogContent = (
     figureElement.className = "h-[500px] w-full object-cover";
 
     const imageElement = document.createElement("img") as HTMLImageElement;
-    imageElement.className = "h-[100%] w-[100%] object-cover";
+    imageElement.className = "h-[100%] w-[100%] object-stretch";
 
     figureElement.appendChild(imageElement);
 
     const headingElement = document.createElement("h3") as HTMLHeadingElement;
-    headingElement.className = "text-2xl font-bold";
+    headingElement.className = "md:text-2xl text-xl font-bold";
 
     const anchorElement = document.createElement("a") as HTMLAnchorElement;
     anchorElement.className = "text-[blue] underline";

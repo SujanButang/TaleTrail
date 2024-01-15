@@ -38,6 +38,13 @@ const commentContainer = document.querySelector(
   "#comments-container"
 ) as HTMLElement;
 
+/**
+ * Handles fetching and displaying comments for a specific blog. Retrieves comments for the specified blogId,
+ * updates the comment count, and dynamically creates HTML elements to display each comment.
+ *
+ * @param {string} blogId - The unique identifier of the blog.
+ * @returns {Promise<void>} - A Promise that resolves after handling comment retrieval and display.
+ */
 export const handleComment = async (blogId: string) => {
   try {
     const commentRes = await makeRequest.get("/comment?blogId=" + blogId);

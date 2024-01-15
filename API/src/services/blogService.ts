@@ -8,6 +8,11 @@ import { TopicModel } from "../models/TopicModel";
 import { UserModel } from "../models/UserModel";
 import { getPaginationOptions } from "../utils/pagination";
 
+/**
+ * Creates a new blog entry with the provided details.
+ * @param blog - The blog object containing title, description, cover image, topic, content, and author ID.
+ * @returns A promise resolving to a message response indicating successful blog creation.
+ */
 export const createBlog = async (blog: IBlog): Promise<IMessageResponse> => {
   await BlogModel.create({
     title: blog.title,
@@ -22,6 +27,13 @@ export const createBlog = async (blog: IBlog): Promise<IMessageResponse> => {
     status: 200,
   };
 };
+
+/**
+ * Retrieves a paginated list of blogs along with their authors and topics.
+ * @param query - The pagination query parameters.
+ * @returns A promise resolving to a message response with the list of blogs.
+ * @throws NotFoundError if the blogs list is empty.
+ */
 export const getAllBlogs = async (query: PaginationQuery) => {
   const { page, size } = query;
   const pageDetails = getPaginationOptions({ page, size });
@@ -42,7 +54,7 @@ export const getAllBlogs = async (query: PaginationQuery) => {
     include: [
       {
         model: UserModel, // Assuming this is your UserModel
-        attributes: ["username", "profile_image"],
+        attributes: ["username", "profile_image", "id"],
       },
       {
         model: TopicModel,
@@ -55,6 +67,12 @@ export const getAllBlogs = async (query: PaginationQuery) => {
   return { blogs, status: 200 };
 };
 
+/**
+ * Retrieves details for a specific blog by its ID, including the author's information.
+ * @param id - The ID of the blog to retrieve.
+ * @returns A promise resolving to a message response with the blog details.
+ * @throws NotFoundError if the blog with the provided ID is not found.
+ */
 export const getBlogById = async (id: string) => {
   const data = await BlogModel.findOne({
     where: { id },
@@ -78,15 +96,20 @@ export const getUserBlog = async (userId: string) => {
     "created_at",
   ];
 
+  /**
+   * Retrieves a paginated list of blogs authored by a specific user, along with their likes.
+   * @param userId - The ID of the user whose blogs are to be retrieved.
+   * @returns A promise resolving to a message response with the list of user's blogs.
+   * @throws NotFoundError if the user's blogs list is empty.
+   */
   const blogs = await BlogModel.findAll({
     where: { author_id: userId },
 
     attributes: selectedColumns,
-    limit: 4,
     include: [
       {
         model: UserModel, // Assuming this is your UserModel
-        attributes: ["id","username", "profile_image"],
+        attributes: ["id", "username", "profile_image"],
       },
       {
         model: LikeModel,
@@ -95,4 +118,20 @@ export const getUserBlog = async (userId: string) => {
   });
   if (blogs.length === 0) throw new NotFoundError("Blogs list empty");
   return { blogs, status: 200 };
+};
+
+/**
+ * Deletes a blog entry by its ID, ensuring the requester is the author.
+ * @param blogId - The ID of the blog to be deleted.
+ * @param userId - The ID of the user making the deletion request.
+ * @returns A promise resolving to a message response indicating successful blog deletion.
+ */
+export const deleteBlog = async (blogId: string, userId: string) => {
+  await BlogModel.destroy({
+    where: {
+      id: blogId,
+      author_id: userId,
+    },
+  });
+  return { status: 200, message: "Blog has been deleted successfully. 🎉" };
 };

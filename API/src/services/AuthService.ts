@@ -129,6 +129,13 @@ export const login = async (
   };
 };
 
+/**
+ * Logs out the user by blacklisting both access and refresh tokens.
+ * Adds the tokens to the blocklist to prevent further usage.
+ * @param accessToken - The user's access token to be blacklisted.
+ * @param refreshToken - The user's refresh token to be blacklisted.
+ * @returns A promise resolving to a message response indicating successful user logout.
+ */
 export const logout = async (
   accessToken: string,
   refreshToken: string

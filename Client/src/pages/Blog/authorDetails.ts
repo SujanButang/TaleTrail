@@ -10,7 +10,14 @@ const authorBio: HTMLParagraphElement = document.querySelector(
   "#author-bio"
 ) as HTMLParagraphElement;
 
-export const getUserDetails = async (userId: string) => {
+/**
+ * Fetches user details for a specified user ID and updates the displayed author names and bio on the web page.
+ *
+ * @param {string} userId - The unique identifier for the user whose details need to be retrieved.
+ * @returns {Promise<void>} - A Promise that resolves after updating the UI with the fetched user details.
+ * @throws {IHTTPError} - An error object representing the HTTP error, if any, during the request.
+ */
+export const getUserDetails = async (userId: string): Promise<void> => {
   try {
     const userDataRes = await makeRequest.get(
       "/user/singleUser?userId=" + userId
@@ -33,7 +40,15 @@ const followBtns: HTMLButtonElement[] = Array.from(
   document.querySelectorAll("#follow-btn")
 );
 
-export const handleUserFollow = async (userId: string) => {
+/**
+ * Handles the user follow functionality, including adding an event listener to follow buttons,
+ * sending a follow request to the server, updating UI on successful follow, and checking if the author is already followed.
+ *
+ * @param {string} userId - The unique identifier for the user to follow.
+ * @returns {Promise<void>} - A Promise that resolves after updating the UI based on follow actions.
+ * @throws {IHTTPError} - An error object representing the HTTP error, if any, during the request.
+ */
+export const handleUserFollow = async (userId: string): Promise<void> => {
   try {
     followBtns.forEach((followBtn: HTMLButtonElement) => {
       followBtn.addEventListener("click", async (e: Event) => {
@@ -51,7 +66,14 @@ export const handleUserFollow = async (userId: string) => {
   }
 };
 
-export const isAuthorFollowed = async (authorId: string) => {
+/**
+ * Checks if the specified author is followed and updates the UI accordingly.
+ *
+ * @param {string} authorId - The unique identifier for the author whose follow status needs to be checked.
+ * @returns {Promise<void>} - A Promise that resolves after updating the UI based on the follow status.
+ * @throws {IHTTPError} - An error object representing the HTTP error, if any, during the request.
+ */
+export const isAuthorFollowed = async (authorId: string): Promise<void> => {
   try {
     getFollowerCount(authorId);
     const relationshipExists = await makeRequest.get(

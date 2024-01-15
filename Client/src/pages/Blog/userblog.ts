@@ -1,6 +1,5 @@
 import moment from "moment";
 import { makeRequest } from "../../axios/axios";
-import { handleHasLiked, handleLike, handleLikeCount } from "./like";
 
 interface IBlog {
   id: string;
@@ -21,7 +20,13 @@ interface IBlog {
   }>;
 }
 
-export const handleMoreBlog = async (userId: string) => {
+/**
+ * Handles fetching and displaying additional blogs by the specified user in the more blog container.
+ *
+ * @param {string} userId - The unique identifier of the user whose blogs are to be displayed.
+ * @returns {Promise<void>} - A Promise that resolves after fetching and displaying additional blogs in the more blog container.
+ */
+export const handleMoreBlog = async (userId: string): Promise<void> => {
   const moreBlogContainer = document.querySelector(
     "#more-blog-container"
   ) as HTMLElement;

@@ -2,12 +2,22 @@ import hljs from "highlight.js";
 import { toggleClass } from "../../utils/utils";
 import { addNewTextarea } from "./textArea";
 
+
+/**
+ * Handles adding a code block functionality to a given parent element.
+ * It includes a dropdown for selecting the programming language, a code area for entering code,
+ * and a pre/code element for displaying the formatted and highlighted code.
+ * The code area is initially visible, and the pre/code element is hidden.
+ * 
+ * @param {HTMLElement} parentElement - The parent element to which the code block functionality will be added.
+ * @returns {void} - This function does not return any value.
+ */
 export const handleAddCode = (parentElement: HTMLElement) => {
   parentElement.classList.add("relative");
 
   // Create and add the dropdown
   const dropdown: HTMLSelectElement = document.createElement("select");
-  dropdown.classList.add("absolute", "right-[-110px]", "top-0");
+  dropdown.classList.add("absolute", "right-[0px]", "top-0");
   const options: string[] = [
     "javascript",
     "python",

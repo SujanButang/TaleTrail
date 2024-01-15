@@ -8,6 +8,13 @@ import {
 import UnauthenticatedError from "../errors/unAuthenticatedError";
 import { PaginationQuery } from "../interfaces/pagination";
 
+/**
+ * Handles the retrieval of details for the currently authenticated user.
+ * Requires the user to be signed in.
+ * @param req - The Express request object.
+ * @param res - The Express response object to send the result.
+ * @param next - The Express next function to handle errors.
+ */
 export const handleGetMyDetails = async (
   req: Request,
   res: Response,
@@ -23,6 +30,12 @@ export const handleGetMyDetails = async (
   }
 };
 
+/**
+ * Handles the retrieval of users based on optional pagination parameters.
+ * @param req - The Express request object containing optional pagination query parameters.
+ * @param res - The Express response object to send the result.
+ * @param next - The Express next function to handle errors.
+ */
 export const handleGetUsers = async (
   req: Request,
   res: Response,
@@ -37,6 +50,12 @@ export const handleGetUsers = async (
   }
 };
 
+/**
+ * Handles the retrieval of details for a specific user by their ID.
+ * @param req - The Express request object containing the user ID.
+ * @param res - The Express response object to send the result.
+ * @param next - The Express next function to handle errors.
+ */
 export const handleSingleUser = async (
   req: Request,
   res: Response,
@@ -51,6 +70,14 @@ export const handleSingleUser = async (
   }
 };
 
+
+/**
+ * Handles the update of the authenticated user's profile details.
+ * Requires the user to be signed in.
+ * @param req - The Express request object containing the updated profile details.
+ * @param res - The Express response object to send the result.
+ * @param next - The Express next function to handle errors.
+ */
 export const handleUpdateProfile = async (
   req: Request,
   res: Response,

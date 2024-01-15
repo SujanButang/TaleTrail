@@ -7,6 +7,13 @@ import {
   removeRelationship,
 } from "../services/relationshipService";
 
+/**
+ * Handles the creation or removal of a follower-following relationship.
+ * Checks if the relationship already exists and toggles its presence accordingly.
+ * @param req - The Express request object containing the following user's ID.
+ * @param res - The Express response object to send the result.
+ * @param next - The Express next function to handle errors.
+ */
 export const handleNewRelation = async (
   req: Request,
   res: Response,
@@ -31,6 +38,12 @@ export const handleNewRelation = async (
   }
 };
 
+/**
+ * Handles the retrieval of followers for a specific user.
+ * @param req - The Express request object containing the user ID.
+ * @param res - The Express response object to send the result.
+ * @param next - The Express next function to handle errors.
+ */
 export const handleGetFollowers = async (
   req: Request,
   res: Response,
@@ -45,6 +58,12 @@ export const handleGetFollowers = async (
   }
 };
 
+/**
+ * Handles the retrieval of users being followed by a specific user.
+ * @param req - The Express request object containing the user ID.
+ * @param res - The Express response object to send the result.
+ * @param next - The Express next function to handle errors.
+ */
 export const handleGetFollowings = async (
   req: Request,
   res: Response,
@@ -59,6 +78,12 @@ export const handleGetFollowings = async (
   }
 };
 
+/**
+ * Handles the check for the existence of a follower-following relationship.
+ * @param req - The Express request object containing the following user's ID.
+ * @param res - The Express response object to send the result.
+ * @param next - The Express next function to handle errors.
+ */
 export const handleCheckRelation = async (
   req: Request,
   res: Response,

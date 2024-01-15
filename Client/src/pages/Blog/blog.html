@@ -39,8 +39,8 @@
                     <img src="../../../user.png" alt="" class="h-4 w-4 object-cover">
                     <span class="text-[#757575] hover:text-[black] text-lg">Profile</span>
                   </li>
-                  <li class="flex items-center gap-2">
-                    <img src="../../../bookmarks.png" alt="" class="h-4 w-4 object-cover">
+                  <li class="flex items-center gap-2" id="reading-list-btn">
+                    <img src="../../../bookmarks.png" alt="" class="h-4 w-4 object-cover" >
                     <span class="text-[#757575] hover:text-[black] text-lg">Reading List</span>
                   </li>
                   <li class="flex items-center gap-2">
@@ -71,7 +71,7 @@
         </ul>
       </nav>
     </header>
-    <main class="flex flex-col w-full py-5 gap-10 items-center">
+    <main class="flex flex-col w-full py-5 gap-10 items-center px-5">
       <div class="max-w-[900px] flex flex-col gap-10">
         <div class="flex flex-col gap-10">
           <h1
@@ -136,7 +136,7 @@
               </button>
             </div>
           </div>
-          <figure class="h-[500px] w-full object-cover">
+          <figure class="md:h-[500px] sm:h-[300px] h-[200px] w-full object-cover">
             <img
               src=""
               alt=""
@@ -189,7 +189,7 @@
       </div>
     </main>
     <footer class="bg-[#f9f9f9] flex flex-col w-full gap-10 py-10 items-center">
-      <div class="flex flex-col max-w-[900px] gap-10 w-full">
+      <div class="flex flex-col max-w-[900px] gap-10 w-full px-5">
         <div class="flex flex-col gap-3">
           <figure class="h-16 w-16">
             <img
@@ -263,5 +263,6 @@
     />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="../../utils/navigations.ts" type="module" ></script>
   </body>
 </html>

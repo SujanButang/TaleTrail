@@ -1,37 +1,13 @@
 import moment from "moment";
 import { makeRequest } from "../../axios/axios";
 import { IHTTPError } from "../../interface/httpError";
-import {
-  cookieValid,
-  getCookie,
-  logout,
-  showToast,
-  toggleClass,
-  toggleModal,
-} from "../../utils/utils";
+import { showToast } from "../../utils/utils";
 import { populateBlogContent } from "../../utils/PopulateBlogs";
 import { handleBookmark } from "./bookmark";
 import { handleLike } from "./like";
 import { handleMoreBlog } from "./userblog";
 import { getUserDetails, handleUserFollow } from "./authorDetails";
 import { handleComment } from "./comment";
-
-//nav
-const homeLinkDiv = document.querySelector("#home-link") as HTMLElement;
-homeLinkDiv.addEventListener(
-  "click",
-  () => (window.location.href = window.location.origin)
-);
-
-const signInBtn: HTMLElement = document.querySelector(
-  "#sign-in"
-) as HTMLElement;
-const getStartedBtn: HTMLElement = document.querySelector(
-  "#get-started"
-) as HTMLElement;
-const writeLink: HTMLAnchorElement = document.querySelector(
-  "#write-link"
-) as HTMLAnchorElement;
 
 const profileBtn = document.querySelector("#profile-btn") as HTMLElement;
 profileBtn.addEventListener("click", (e: Event) => {
@@ -40,33 +16,6 @@ profileBtn.addEventListener("click", (e: Event) => {
     window.location.origin +
     "/src/pages/Profile/profile.html?userId=" +
     userData.id;
-});
-
-signInBtn.addEventListener(
-  "click",
-  () =>
-    (window.location.href =
-      window.location.origin + "/src/pages/Login/login.html")
-);
-
-getStartedBtn.addEventListener(
-  "click",
-  () =>
-    (window.location.href =
-      window.location.origin + "/src/pages/Register/register.html")
-);
-
-const profileContainer = document.querySelector("#profile") as HTMLElement;
-
-document.addEventListener("DOMContentLoaded", async () => {
-  const cookie = getCookie("accessToken");
-  if (!cookie) return;
-  const validCookie = await cookieValid();
-  if (!validCookie) return;
-  toggleClass(signInBtn, { remove: "sm:flex" });
-  toggleClass(getStartedBtn, { add: "hidden" });
-  toggleClass(profileContainer, { add: "flex", remove: "hidden" });
-  writeLink.href = window.location.origin + "/src/pages/Write/write.html";
 });
 
 const userImage = document.querySelector("#user-image") as HTMLImageElement;
@@ -78,22 +27,6 @@ if (userData) {
     userImage.src = userData.profileImage;
   }
 }
-
-const profileOptionModal = document.querySelector(
-  "#profile-option-div"
-) as HTMLElement;
-const userBtn = document.querySelector("#user-btn") as HTMLElement;
-
-userBtn.addEventListener("click", (e: Event) => {
-  e.preventDefault();
-  toggleModal(profileOptionModal);
-});
-
-const signOutButton = document.querySelector("#sign-out") as HTMLButtonElement;
-signOutButton.addEventListener("click", async () => {
-  await logout();
-  window.location.href = window.location.origin;
-});
 
 const blogId = window.location.href.split("=")[1] as string;
 const blogTitleElement = document.querySelector(
@@ -121,10 +54,17 @@ const blogContentElement = document.querySelector(
 
 let userId;
 
+/**
+ * Fetches the content of a specific blog using its unique identifier, updates the UI with the retrieved data,
+ * and sets up various interactions like handling user details, follow button, and more blog content.
+ *
+ * @param {string} id - The unique identifier of the blog.
+ * @returns {Promise<void>} - A Promise that resolves after updating the UI with the blog details.
+ * @throws {IHTTPError} - An error object representing the HTTP error, if any, during the request.
+ */
 export const getBlogContents = async (id: string) => {
   try {
     const res = await makeRequest.get("/blog/single?blogId=" + id);
-    console.log(res.data);
     userId = res.data.author_id;
     blogTitleElement.innerText = res.data.title;
     coverImageElement.src = res.data.cover_image;
@@ -133,6 +73,16 @@ export const getBlogContents = async (id: string) => {
       userImageElement.src = res.data.author.profile_image;
     }
     authorNameElement.innerText = res.data.author.username;
+    authorNameElement.classList.add("cursor-pointer", "hover:underline");
+    authorNameElement.addEventListener(
+      "click",
+      () =>
+        (window.location.href =
+          window.location.origin +
+          "/src/pages/Profile/profile.html?userId=" +
+          res.data.author_id)
+    );
+
     publishedDateElement.innerText = moment(res.data.created_at).format(
       "MMMM DD, YYYY"
     );

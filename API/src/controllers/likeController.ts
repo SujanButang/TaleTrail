@@ -6,6 +6,14 @@ import {
   removeLike,
 } from "../services/likeService";
 
+
+/**
+ * Handles the addition or removal of a like for a specific blog by the logged-in user.
+ * Checks if the user has already liked the blog and toggles the like accordingly.
+ * @param req - The Express request object containing the blog ID.
+ * @param res - The Express response object to send the result.
+ * @param next - The Express next function to handle errors.
+ */
 export const handleAddLike = async (
   req: Request,
   res: Response,
@@ -27,6 +35,13 @@ export const handleAddLike = async (
   }
 };
 
+
+/**
+ * Handles the retrieval of the total count of likes for a specific blog.
+ * @param req - The Express request object containing the blog ID.
+ * @param res - The Express response object to send the result.
+ * @param next - The Express next function to handle errors.
+ */
 export const handleGetBlogLikesCount = async (
   req: Request,
   res: Response,
@@ -41,6 +56,12 @@ export const handleGetBlogLikesCount = async (
   }
 };
 
+/**
+ * Handles the check for whether the logged-in user has liked a specific blog.
+ * @param req - The Express request object containing the blog ID.
+ * @param res - The Express response object to send the result.
+ * @param next - The Express next function to handle errors.
+ */
 export const handleHasLike = async (
   req: Request,
   res: Response,

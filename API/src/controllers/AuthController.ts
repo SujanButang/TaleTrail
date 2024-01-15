@@ -29,7 +29,6 @@ export const handleVerifyEmail = async (
     const data = await verifyUserEmail(email);
     res.status(200).json(data.message);
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
@@ -50,7 +49,6 @@ export const handleVerifyOTP = async (
     const data = await verifyOTP(email, otp);
     res.status(data.status).json(data.message);
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
@@ -100,6 +98,12 @@ export const handleUserLogin = async (
   }
 };
 
+/**
+ * Handles the user logout process, clearing access and refresh tokens cookies.
+ * @param req - The Express request object containing access and refresh tokens in cookies.
+ * @param res - The Express response object to clear cookies and send the result.
+ * @param next - The Express next function to handle errors.
+ */
 export const handleUserLogout = async (
   req: Request,
   res: Response,

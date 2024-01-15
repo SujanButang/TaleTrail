@@ -27,7 +27,7 @@ export const addOptions = (parent: HTMLElement) => {
     "gap-5",
     "items-center",
     "justify-center",
-    "left-[-60px]",
+    "left-[-40px]",
     "top-0",
     "group"
   );
@@ -93,8 +93,8 @@ const createOptionButton = (
   const button = document.createElement("div");
 
   button.classList.add(
-    "h-10",
-    "w-10",
+    "h-8",
+    "w-8",
     "rounded-full",
     "flex",
     "items-center",

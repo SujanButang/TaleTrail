@@ -5,6 +5,13 @@ import {
   removeComment,
 } from "../services/commentService";
 
+/**
+ * Handles the addition of a new comment to a blog.
+ * Requires the user to be logged in.
+ * @param req - The Express request object containing the blog ID and comment details.
+ * @param res - The Express response object to send the result.
+ * @param next - The Express next function to handle errors.
+ */
 export const handleAddComment = async (
   req: Request,
   res: Response,
@@ -17,11 +24,17 @@ export const handleAddComment = async (
     const data = await addComment(blogId as string, userId, comment);
     res.status(data.status).json(data.message);
   } catch (error) {
-    console.log(error)
     next(error);
   }
 };
 
+/**
+ * Handles the removal of a comment by its ID.
+ * Requires the user to be logged in and have the necessary permissions.
+ * @param req - The Express request object containing the comment ID.
+ * @param res - The Express response object to send the result.
+ * @param next - The Express next function to handle errors.
+ */
 export const handleRemoveComment = async (
   req: Request,
   res: Response,
@@ -37,6 +50,13 @@ export const handleRemoveComment = async (
   }
 };
 
+
+/**
+ * Handles the retrieval of all comments associated with a specific blog.
+ * @param req - The Express request object containing the blog ID.
+ * @param res - The Express response object to send the result.
+ * @param next - The Express next function to handle errors.
+ */
 export const handleGetAllComments = async (
   req: Request,
   res: Response,

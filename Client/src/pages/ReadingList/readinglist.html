@@ -20,17 +20,10 @@
               Write
             </a>
           </li>
-          <li class="cursor-pointer sm:flex hidden" id="sign-in">
-           Sign in
-          </li>
-          <li class="cursor-pointer" id="get-started">
-            <button id="register-btn" class="bg-[#1a8917] py-2 px-3 rounded-3xl text-white hover:bg-[#156d12]">
-               Get Started
-            </button>
-          </li>
+          
           <li class="cursor-pointer hidden" id="profile">
             <figure class=" relative" id="user-btn">
-              <img src="../../../no-profile.jpg" alt="" class="h-8 w-8 rounded-full object-cover" id="logged-user-image"/>
+              <img src="../../../no-profile.jpg" alt="" class="h-8 w-8 rounded-full object-cover" id="user-image"/>
               <div
                 class="hidden border w-52 h-64 bg-white absolute rounded-sm flex-col shadow left-[-80px] top-[30px] py-5 px-5 gap-5"
                 id="profile-option-div">
@@ -40,7 +33,7 @@
                     <span class="text-[#757575] hover:text-[black] text-lg">Profile</span>
                   </li>
                   <li class="flex items-center gap-2" id="reading-list-btn">
-                    <img src="../../../bookmarks.png" alt="" class="h-4 w-4 object-cover" >
+                    <img src="../../../bookmarks.png" alt="" class="h-4 w-4 object-cover">
                     <span class="text-[#757575] hover:text-[black] text-lg">Reading List</span>
                   </li>
                   <li class="flex items-center gap-2">
@@ -71,12 +64,12 @@
         </ul>
       </nav>
     </header>
-    <main class="flex lg:px-20 md:px-2 md:h-full md:flex-row flex-col-reverse ">
+    <main class="flex lg:px-20 md:px-2 md:h-full md:flex-row flex-col-reverse">
         <section class="flex-col md:w-[70%] w-full  px-10 md:py-10">
             <div class="flex border-b gap-5 pt-5 pb-2 w-[100%] sm:ps-10 text-sm">
-                <span class="cursor-pointer text-lg font-bold">User's blogs</span>
+                <span class="cursor-pointer text-lg font-bold">ReadingList</span>
               </div>
-            <div class="flex flex-col sm:px-5 md:h-[80vh] overflow-y-scroll" id="blog-container"></div>
+            <div class="flex flex-col sm:px-5 h-[80vh] overflow-y-scroll" id="blog-container"></div>
 
         </section>
         <aside class="flex border-l md:h-[100vh] flex-col gap-2 p-5 md:w-[30%] w-full  md:py-10">
@@ -86,7 +79,6 @@
             <div class="flex items-center gap-5">
 
                 <h1 class="font-bold" id="username">Sujan Rai</h1>
-                <button class="text-[#1a8917] cursor-pointer hover:text-[#156d12] text-sm" id="follow-btn">Follow</button>
                 <button class="text-[#1a8917] cursor-pointer hover:text-[#156d12] text-sm" id="edit-profile-btn">Edit Profile</button>
             </div>
             <div class="flex items-center gap-5 text-sm">
@@ -100,7 +92,7 @@
                    Followings</span>
 
             </div>
-            <p class="text-justify text-sm" id="user-bio">Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa, iusto, reiciendis consequatur magnam unde odit inventore maiores assumenda asperiores molestias voluptatem placeat ipsam dolorum vel, repellat tenetur repellendus. Doloribus, recusandae.</p>
+            <p class="text-justify text-sm" id="user-bio"></p>
         </aside>    
 
 
@@ -113,7 +105,7 @@
                 <button class="h-4 w-4" id="close-modal"><img src="../../../close.png" alt="" class="h-full w-full object-cover"></button>
             </div>
             <div class="flex items-center gap-5">
-                <img src="" alt="" class="h-20 w-20 rounded-full object-cover" id="logged-user-image">
+                <img src="../../../no-profile.jpg" alt="" class="h-20 w-20 rounded-full object-cover" id="user-image">
                 <button class="text-[#1a8917] text-sm hover:text-[#156d12] ">
                 <label for="profile-image " class="cursor-pointer" id="upload-profile-img">
                     Update
@@ -123,7 +115,7 @@
             </div>
             <div class="w-full flex flex-col gap-3">
                 <label for="profile-username" class="text-sm font-bold">Username</label>
-                <input type="text" class="w-full border-b focus:outline-none" id="profile-update-username">
+                <input type="text" class="w-full border-b focus:outline-none" value="Sujan Rai" id="profile-update-username">
             </div>
             <div class="w-full flex flex-col gap-3">
                 <label for="profile-username" class="text-sm font-bold">Bio</label>
@@ -140,8 +132,7 @@
    
 
 
-    <script type="module" src="./profile.ts"></script>
-    <script type="module" src="../../utils/navigations.ts"></script>
+    <script type="module" src="./readinglist.ts"></script>
     
   </body>
 </html>

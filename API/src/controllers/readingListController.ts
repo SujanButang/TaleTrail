@@ -7,6 +7,13 @@ import {
 } from "../services/readingListService";
 import NotFoundError from "../errors/notFoundError";
 
+/**
+ * Handles the addition or removal of a blog to/from the user's reading list.
+ * Checks if the blog is already in the reading list and toggles its presence accordingly.
+ * @param req - The Express request object containing the blog ID.
+ * @param res - The Express response object to send the result.
+ * @param next - The Express next function to handle errors.
+ */
 export const handleAddToReadingList = async (
   req: Request,
   res: Response,
@@ -27,6 +34,13 @@ export const handleAddToReadingList = async (
   }
 };
 
+/**
+ * Handles the retrieval of blogs in the user's reading list.
+ * Requires the user to be logged in.
+ * @param req - The Express request object.
+ * @param res - The Express response object to send the result.
+ * @param next - The Express next function to handle errors.
+ */
 export const handleGetUserReadingList = async (
   req: Request,
   res: Response,
@@ -42,6 +56,13 @@ export const handleGetUserReadingList = async (
   }
 };
 
+/**
+ * Handles the removal of a blog from the user's reading list.
+ * Requires the user to be logged in.
+ * @param req - The Express request object containing the blog ID.
+ * @param res - The Express response object to send the result.
+ * @param next - The Express next function to handle errors.
+ */
 export const handleRemoveFromReadingList = async (
   req: Request,
   res: Response,

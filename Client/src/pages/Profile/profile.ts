@@ -2,9 +2,6 @@ import moment from "moment";
 import { makeRequest } from "../../axios/axios";
 import { IHTTPError } from "../../interface/httpError";
 import {
-  cookieValid,
-  getCookie,
-  logout,
   showToast,
   toggleClass,
   toggleFollowingStatus,
@@ -12,89 +9,35 @@ import {
 } from "../../utils/utils";
 import axios from "axios";
 
-const homeLinkDiv = document.querySelector("#home-link") as HTMLElement;
-homeLinkDiv.addEventListener(
-  "click",
-  () => (window.location.href = window.location.origin)
-);
-
-const signInBtn: HTMLElement = document.querySelector(
-  "#sign-in"
-) as HTMLElement;
-const getStartedBtn: HTMLElement = document.querySelector(
-  "#get-started"
-) as HTMLElement;
-const writeLink: HTMLAnchorElement = document.querySelector(
-  "#write-link"
-) as HTMLAnchorElement;
-
-signInBtn.addEventListener(
-  "click",
-  () =>
-    (window.location.href =
-      window.location.origin + "/src/pages/Login/login.html")
-);
-
-getStartedBtn.addEventListener(
-  "click",
-  () =>
-    (window.location.href =
-      window.location.origin + "/src/pages/Register/register.html")
-);
-
-const profileContainer = document.querySelector("#profile") as HTMLElement;
-
-document.addEventListener("DOMContentLoaded", async () => {
-  const cookie = getCookie("accessToken");
-  if (!cookie) return;
-  const validCookie = await cookieValid();
-  if (!validCookie) return;
-  toggleClass(signInBtn, { remove: "sm:flex" });
-  toggleClass(getStartedBtn, { add: "hidden" });
-  toggleClass(profileContainer, { add: "flex", remove: "hidden" });
-  writeLink.href = window.location.origin + "/src/pages/Write/write.html";
-});
-
 const userImages: HTMLImageElement[] = Array.from(
-  document.querySelectorAll("#user-image")
+  document.querySelectorAll("#logged-user-image")
 );
+
+const currentUsername = document.querySelector(
+  "#profile-update-username"
+) as HTMLInputElement;
+const currentBio = document.querySelector(
+  "#profile-update-bio"
+) as HTMLInputElement;
+const loggedUserImage: HTMLImageElement[] = Array.from(
+  document.querySelectorAll("#logged-user-image")
+);
+
+const userId = window.location.href.split("=")[1];
 const userEmail = document.querySelector("#user-email") as HTMLSpanElement;
 const userData = JSON.parse(localStorage.getItem("user") as string);
-if (userData) {
-  userEmail.innerText = userData.email || "";
-  if (userData.profileImage) {
-    userImages.forEach((userImage) => {
-      userImage.src = userData.profileImage;
-    });
-  }
+if (!userData) window.location.href = window.location.origin;
+userEmail.innerText = userData.email || "";
+if (userData.profileImage) {
+  loggedUserImage.forEach((img) => {
+    img.src = userData.profileImage;
+  });
+  userImages.forEach((userImage) => {
+    userImage.src = userData.profileImage;
+  });
 }
-
-const profileOptionModal = document.querySelector(
-  "#profile-option-div"
-) as HTMLElement;
-const userBtn = document.querySelector("#user-btn") as HTMLElement;
-
-userBtn.addEventListener("click", (e: Event) => {
-  e.preventDefault();
-  toggleModal(profileOptionModal);
-});
-
-const signOutButton = document.querySelector("#sign-out") as HTMLButtonElement;
-signOutButton.addEventListener("click", async () => {
-  await logout();
-  window.location.href = window.location.origin;
-});
-
-const profileBtn = document.querySelector("#profile-btn") as HTMLElement;
-profileBtn.addEventListener("click", (e: Event) => {
-  e.preventDefault();
-  window.location.href =
-    window.location.origin +
-    "/src/pages/Profile/profile.html?userId=" +
-    userData.id;
-});
-
-const userId = window.location.href.split("=")[1] as string;
+currentUsername.value = userData.username;
+currentBio.value = userData.bio == undefined ? "" : userData.bio;
 
 /**
  * Retrieves blogs associated with the specified user ID and dynamically populates the blog container.
@@ -106,9 +49,9 @@ const getUserBlogs = async (userId: string) => {
     const blogContainer = document.querySelector(
       "#blog-container"
     ) as HTMLElement;
-    console.log(res.data);
     res.data.forEach(
       (blog: {
+        id: string;
         title: string;
         cover_image: string;
         created_at: string;
@@ -141,7 +84,25 @@ const getUserBlogs = async (userId: string) => {
   <span class="font-semibold"> ${blog.author.username} </span>
   <span class="font-light text-sm"> ${moment(blog.created_at).format(
     "MMMM DD, YYYY"
-  )} </span>`;
+  )} </span>
+  ${
+    userData && userData.id == blog.author.id
+      ? `
+  <div id="blog-option-${blog.id}" class="relative">
+        <img src="../../../option.png" alt="" class="h-5 w-5 object-cover"/>
+        <div class="absolute bottom-[-100px] right-[-100px] h-18 w-40 bg-white border shadow-lg rounded-md hidden flex-col p-2 gap-2" id="blog-option-modal-${blog.id}">
+            <button class="p-1 flex gap-2 items-center">
+            <img src="../../../edit.png" alt="" class="h-5 w-5 object-cover"/>
+            Edit</button>
+            <hr>
+            <button class="p-1 flex gap-2 items-center" id="delete-blog-${blog.id}">
+            <img src="../../../delete.png" alt="" class="h-5 w-5 object-cover"/>
+
+            Delete</button>
+        </div>
+    </div>`
+      : ""
+  }`;
         blogDiv.appendChild(authorInfo);
 
         const blogContent = document.createElement("div");
@@ -160,11 +121,42 @@ const getUserBlogs = async (userId: string) => {
         </figure>
       `;
         blogDiv.appendChild(blogContent);
+
         const anchor = document.createElement("a") as HTMLAnchorElement;
         anchor.href = `${window.location.origin}/src/pages/Blog/blog.html?blogId=${blog.id}`;
         anchor.appendChild(blogDiv);
 
         blogContainer.appendChild(anchor);
+
+        const blogOptionBtn = document.querySelector(
+          `#blog-option-${blog.id}`
+        ) as HTMLButtonElement;
+        const blogOptionModal = document.querySelector(
+          `#blog-option-modal-${blog.id}`
+        ) as HTMLElement;
+        blogOptionBtn.addEventListener("click", (e: Event) => {
+          e.preventDefault();
+          toggleModal(blogOptionModal);
+        });
+
+        const deletBlogBtn = document.querySelector(
+          `#delete-blog-${blog.id}`
+        ) as HTMLButtonElement;
+        deletBlogBtn.addEventListener("click", async (e: Event) => {
+          e.preventDefault();
+          try {
+            const res = await makeRequest.delete("/blog?blogId=" + blog.id);
+            showToast("success", res.data);
+            anchor.remove();
+          } catch (error) {
+            const errorMessage =
+              typeof error === "object" && error !== null
+                ? (error as IHTTPError)?.response?.data?.message
+                : "";
+
+            showToast("failed", errorMessage as string);
+          }
+        });
       }
     );
   } catch (error) {
@@ -179,6 +171,13 @@ const getUserBlogs = async (userId: string) => {
 
 getUserBlogs(userId);
 
+/**
+ * Gets the details of a user by making a request to the backend API endpoint.
+ * Updates the corresponding HTML elements with the user data.
+ * 
+ * @param {string} userId - The unique identifier of the user to get details for.
+ * @returns {Promise<void>} - A Promise that resolves after fetching and updating the user details.
+ */
 const getUserDetails = async (userId: string) => {
   try {
     const res = await makeRequest.get("/user/singleUser?userId=" + userId);
@@ -190,6 +189,13 @@ const getUserDetails = async (userId: string) => {
       "#user-bio"
     ) as HTMLParagraphElement;
     userBioDiv.innerText = res.data.bio || "";
+    const userImage = document.querySelector("#user-image") as HTMLImageElement;
+    if (res.data.profile_image !== null) {
+      userImage.src = res.data.profile_image;
+    }
+    if (userId == userData.id) {
+      localStorage.setItem("user", res.data);
+    }
   } catch (error) {
     const errorMessage =
       typeof error === "object" && error !== null
@@ -202,6 +208,12 @@ const getUserDetails = async (userId: string) => {
 
 getUserDetails(userId);
 
+/**
+ * Gets the list of followers for a specified user and updates the follower count element.
+ * 
+ * @param {string} userId - The unique identifier of the user to get followers for.
+ * @returns {Promise<void>} - A Promise that resolves after fetching and updating the follower count.
+ */
 const getFollowers = async (userId: string) => {
   try {
     const res = await makeRequest.get(
@@ -258,6 +270,13 @@ if (userId == userData.id) {
   toggleClass(editProfileBtn, { add: "hidden" });
 }
 
+/**
+ * Handles the user's interaction with the follow button.
+ * 
+ * @param {string} userId - The unique identifier of the user to follow/unfollow.
+ * @param {HTMLButtonElement} followBtn - The follow button element that triggers the follow action.
+ * @returns {Promise<void>} - A Promise that resolves after handling the user's interaction.
+ */
 const handleUserFollow = async (userId: string) => {
   try {
     followBtn.addEventListener("click", async (e: Event) => {
@@ -274,7 +293,14 @@ const handleUserFollow = async (userId: string) => {
   }
 };
 
-const isUserFollowed = async (authorId: string) => {
+/**
+ * Checks if the current user is following the specified author and updates the follow button accordingly.
+ *
+ * @param {string} authorId - The unique identifier of the author to check for follow status.
+ * @param {HTMLButtonElement} followBtn - The follow button element to update based on follow status.
+ * @returns {Promise<void>} - A Promise that resolves after checking and updating the follow button.
+ */
+const isUserFollowed = async (authorId: string): Promise<void> => {
   try {
     const relationshipExists = await makeRequest.get(
       "/relationship/check?authorId=" + authorId
@@ -299,6 +325,7 @@ const profileEditModal = document.querySelector(
 ) as HTMLElement;
 editProfileBtn.addEventListener("click", (e: Event) => {
   e.preventDefault();
+
   toggleModal(profileEditModal);
 });
 
@@ -340,6 +367,10 @@ profileImageInput.addEventListener("change", async (e: Event) => {
       profileImgs.forEach((profileImg) => {
         profileImg.src = res.data.url;
       });
+
+      loggedUserImage.forEach((img) => {
+        img.src = res.data.url;
+      });
     } catch (error) {
       console.error("Error uploading image:", error);
     }
@@ -349,28 +380,21 @@ profileImageInput.addEventListener("change", async (e: Event) => {
 saveBtn.addEventListener("click", async (e: Event) => {
   e.preventDefault();
   try {
-    const profile_image = profileImgs[0].src;
+    const profile_image = loggedUserImage[0].src;
     const username = (
       document.querySelector("#profile-update-username") as HTMLInputElement
     ).value;
     const bio = (
       document.querySelector("#profile-update-bio") as HTMLInputElement
     ).value;
-    if (
-      profile_image == `${window.location.origin}/no-profile.jpg` ||
-      username.trim() == ""
-    ) {
-      showToast("fail", "Username and profile image are necessary");
-    } else {
-      const res = await makeRequest.put("/user/updateProfile", {
-        username,
-        profile_image,
-        bio,
-      });
-      showToast("success", res.data);
-    }
+
+    const res = await makeRequest.put("/user/updateProfile", {
+      username,
+      profile_image,
+      bio,
+    });
+    showToast("success", res.data);
   } catch (error) {
-    console.log(error);
     const errorMessage =
       typeof error === "object" && error !== null
         ? (error as IHTTPError)?.response?.data?.message

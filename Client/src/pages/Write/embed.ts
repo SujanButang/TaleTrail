@@ -1,6 +1,15 @@
 import { toggleClass } from "../../utils/utils";
 import { addNewTextarea } from "./textArea";
 
+/**
+ * Handles adding an embed link functionality to a given parent element.
+ * It includes an input for entering the link, and when the user presses Enter,
+ * it replaces the input with an anchor element containing the entered link.
+ * The anchor element is initially visible, and the input is hidden.
+ *
+ * @param {HTMLElement} parentElement - The parent element to which the embed link functionality will be added.
+ * @returns {void} - This function does not return any value.
+ */
 export const handleAddEmbed = (parentElement: HTMLElement) => {
   parentElement.innerHTML = "";
   const embedInput: HTMLInputElement = document.createElement(

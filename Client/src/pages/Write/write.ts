@@ -20,7 +20,6 @@ import { handleTextareaInput, setupTextareas } from "./textArea";
 const cookie = getCookie("accessToken");
 const validCookie = cookieValid().then(() => {
   if (!validCookie || !cookie) {
-    console.log("here");
     window.location.href = window.location.origin;
   }
 });
@@ -67,7 +66,6 @@ publishBtn.addEventListener("click", async (): Promise<void> => {
   const titleElement = document.querySelector(
     "#title-input"
   ) as HTMLInputElement;
-  console.log(titleElement.value);
   if (titleElement.value == "") {
     showToast("fail", "Please give your blog a title. ☹️");
     return;
@@ -100,7 +98,6 @@ publishBtn.addEventListener("click", async (): Promise<void> => {
     document.querySelectorAll(".input-div")
   ) as HTMLElement[];
   inputs.forEach((input: HTMLElement) => {
-    console.log(input);
     //image input
     const imgElement = input.querySelector("img");
     if (imgElement) {

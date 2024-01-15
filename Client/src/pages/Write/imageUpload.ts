@@ -18,7 +18,9 @@ export const handleImageUpload = async (parentElement: HTMLElement) => {
       try {
         const image: HTMLImageElement = document.createElement("img");
         image.classList.add(
-          "h-[500px]",
+          "lg:h-[400px]",
+          "md:h-[300px]",
+          "h-[200px]",
           "w-full",
           "object-contain",
           "rounded-md",

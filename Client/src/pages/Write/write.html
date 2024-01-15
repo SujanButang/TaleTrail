@@ -12,7 +12,7 @@
 </head>
 
 <body class="h-[100vh]">
-  <header class="lg:px-32 md:px-20 flex items-center justify-between h-[10%] border-b border-black sticky">
+  <header class="lg:px-32 md:px-20 px-10 flex items-center justify-between h-[10%] border-b border-black sticky">
     <figure class="flex items-center justify-center m-0 p-0 h-7">
       <img src="../../../public/logo.png" alt="logo" class="h-[100%] w-[100%] object-contain cursor-pointer" id="logo"/>
     </figure>
@@ -54,11 +54,13 @@
       </ul>
     </nav>
   </header>
-  <main class="lg:px-80 md:px-20 flex flex-col items-center justify-between gap-5">
-    <input type="text" placeholder="Title" id="title-input" class="h-24 text-4xl font-bold w-full focus:outline-none" />
-    <figure class="h-[500px] w-full object-contain rounded-md bg-slate-200 flex flex-col items-center justify-center"
+  <main class="flex flex-col items-center justify-between gap-5 w-full">
+    <div class="flex flex-col items-center gap-5 max-w-[900px] w-full md:px-20 px-10">
+
+    <input type="text" placeholder="Title" id="title-input" class="h-24 lg:text-4xl md:text-3xl text-2xl font-bold w-full focus:outline-none" />
+    <figure class="lg:h-[400px] md:h-[300px] h-[200px] w-full object-contain rounded-md bg-slate-200 flex flex-col items-center justify-center"
       id="cover-image">
-      <img src="../../../upload.png" alt="" class="h-20 w-20 cursor-pointer" id="image-upload" />
+      <img src="../../../upload.png" alt="" class="lg:h-20 md:h-10 h-5 lg:w-20 md:w-10 w-5 cursor-pointer" id="image-upload" />
       <span>Add a cover image</span>
     </figure>
     <div class="w-full">
@@ -70,6 +72,8 @@
             class="w-full text-lg focus:outline-none resize-none overflow-y-hidden h-6" id="initial"></textarea>
         </div>
       </form>
+    </div>
+
   </main>
   <script type="module" src="./write.ts"></script>
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/vs2015.min.css" />

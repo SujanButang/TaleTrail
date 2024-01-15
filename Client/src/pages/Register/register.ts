@@ -102,7 +102,6 @@ const handleOtpVerification = async (e: Event) => {
   const email = emailInput.value;
   try {
     const res = await makeRequest.post("/auth/verifyOTP", { email, otp });
-    console.log(res && res);
     if (res.status == 200) {
       showToast("success", res.data);
       toggleClass(otpVerification, { add: "hidden", remove: "flex" });
@@ -130,7 +129,6 @@ otpVerificationForm.addEventListener("submit", handleOtpVerification);
 const validatePassword = (password: string, confirmPassword: string) => {
   const passwordPattern =
     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-  console.log(password, passwordPattern.test(password));
 
   if (!passwordPattern.test(password)) {
     toggleClass(invalidPassword, { add: "flex", remove: "hidden" });

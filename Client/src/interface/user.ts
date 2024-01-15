@@ -1,4 +1,5 @@
 export interface IUser {
+  id: string;
   username: string;
   profile_image: string;
 }
@@ -10,11 +11,12 @@ export interface IUsers {
   bio: string;
 }
 
-export interface IFollowings{
+export interface IFollowings {
   id: string;
   following: {
     id: string;
     username: string;
     profile_image: string;
-    bio: string;}
+    bio: string;
+  };
 }

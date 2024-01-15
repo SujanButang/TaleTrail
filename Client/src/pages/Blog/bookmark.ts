@@ -3,7 +3,15 @@ import { IHTTPError } from "../../interface/httpError";
 import { blogInReadingList } from "../../utils/utils";
 import { showToast, toggleIcon, userLoggedIn } from "../../utils/utils";
 
-export const handleBookmark = async (blogId: string) => {
+/**
+ * Handles bookmark functionality for a specific blog. Checks if the blog is already in the user's reading list
+ * and updates the bookmark button's appearance accordingly. Listens for bookmark button clicks and triggers
+ * the appropriate actions such as adding or removing the blog from the reading list.
+ *
+ * @param {string} blogId - The unique identifier of the blog.
+ * @returns {Promise<void>} - A Promise that resolves after handling the bookmark functionality.
+ */
+export const handleBookmark = async (blogId: string): Promise<void> => {
   const readingList = (await blogInReadingList()) as
     | {
         id: string;
