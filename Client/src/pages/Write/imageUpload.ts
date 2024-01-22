@@ -1,9 +1,11 @@
 import axios from "axios";
 import { addNewTextarea } from "./textArea";
+import { CLOUD_NAME } from "../../constants/contants";
+
 
 export const handleImageUpload = async (parentElement: HTMLElement) => {
   parentElement.innerHTML = "";
-  parentElement.classList.add("h-auto","relative");
+  parentElement.classList.add("h-auto", "relative");
 
   const fileInput: HTMLInputElement = document.createElement("input");
   fileInput.type = "file";
@@ -33,7 +35,7 @@ export const handleImageUpload = async (parentElement: HTMLElement) => {
         }
 
         const res = await axios.post(
-          "https://api.cloudinary.com/v1_1/drrrbo5hw/image/upload",
+          `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
           formData
         );
 

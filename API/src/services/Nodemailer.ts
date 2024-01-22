@@ -8,8 +8,8 @@ export const sendMail = (params: { email: string; otp: number }) => {
   const transporter = createTransport({
     service: "gmail",
     auth: {
-      user: "tale.trail.site@gmail.com",
-      pass: "vwnzxvxivpjtaakl",
+      user: "",
+      pass: "",
     },
   });
 
