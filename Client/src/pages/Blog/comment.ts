@@ -1,7 +1,7 @@
 import moment from "moment";
 import { makeRequest } from "../../axios/axios";
 import { IHTTPError } from "../../interface/httpError";
-import { showToast, toggleModal } from "../../utils/utils";
+import { cookieValid, showToast, toggleModal } from "../../utils/utils";
 import { IComment } from "../../interface/comment";
 
 const commentModal = document.querySelector("#comment-modal") as HTMLElement;
@@ -17,9 +17,9 @@ if (userData) {
   commentUser.innerText = userData.username;
 }
 commentBtns.forEach((commentBtn) => {
-  commentBtn.addEventListener("click", (e: Event) => {
+  commentBtn.addEventListener("click", async(e: Event):Promise<void> => {
     e.preventDefault();
-    if (userData) {
+    if (userData && await cookieValid()) {
       toggleModal(commentModal);
     } else {
       showToast("failed", "Sign in to leave a comment. ☹️");

@@ -92,10 +92,6 @@ const getUserBlogs = async (userId: string) => {
   <div id="blog-option-${blog.id}" class="relative">
         <img src="../../../option.png" alt="" class="h-5 w-5 object-cover"/>
         <div class="absolute bottom-[-100px] right-[-100px] h-18 w-40 bg-white border shadow-lg rounded-md hidden flex-col p-2 gap-2" id="blog-option-modal-${blog.id}">
-            <button class="p-1 flex gap-2 items-center">
-            <img src="../../../edit.png" alt="" class="h-5 w-5 object-cover"/>
-            Edit</button>
-            <hr>
             <button class="p-1 flex gap-2 items-center" id="delete-blog-${blog.id}">
             <img src="../../../delete.png" alt="" class="h-5 w-5 object-cover"/>
 

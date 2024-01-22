@@ -40,6 +40,8 @@ const followBtns: HTMLButtonElement[] = Array.from(
   document.querySelectorAll("#follow-btn")
 );
 
+const userData = JSON.parse(localStorage.getItem("user") as string);
+
 /**
  * Handles the user follow functionality, including adding an event listener to follow buttons,
  * sending a follow request to the server, updating UI on successful follow, and checking if the author is already followed.
@@ -51,6 +53,9 @@ const followBtns: HTMLButtonElement[] = Array.from(
 export const handleUserFollow = async (userId: string): Promise<void> => {
   try {
     followBtns.forEach((followBtn: HTMLButtonElement) => {
+      if (userId == userData.id) {
+        followBtn.classList.add("hidden");
+      }
       followBtn.addEventListener("click", async (e: Event) => {
         e.preventDefault();
         const followRes = await makeRequest.post(
