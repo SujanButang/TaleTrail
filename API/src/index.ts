@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import routes from "./routes/index";
 import "./database/connection";
-import { genericErrorHandler, notFoundError } from "./middlewares/errorHandler";
+import { genericErrorHandler, notFoundError } from "./middlewares/ErrorHandler";
 
 dotenv.config();
 

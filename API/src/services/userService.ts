@@ -1,4 +1,4 @@
-import NotFoundError from "../errors/notFoundError";
+import NotFoundError from "../errors/NotFoundError";
 import { PaginationQuery } from "../interfaces/pagination";
 import { IUserDataResponse } from "../interfaces/responseInterface";
 import { UserModel } from "../models/UserModel";

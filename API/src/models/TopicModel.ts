@@ -1,5 +1,5 @@
 import { Column, DataType, Model, Table } from "sequelize-typescript";
-import NotFoundError from "../errors/notFoundError";
+import NotFoundError from "../errors/NotFoundError";
 
 @Table({
   timestamps: true,

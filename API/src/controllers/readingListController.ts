@@ -5,7 +5,7 @@ import {
   getUsersReadingList,
   removeFromReadingList,
 } from "../services/readingListService";
-import NotFoundError from "../errors/notFoundError";
+import NotFoundError from "../errors/NotFoundError";
 
 /**
  * Handles the addition or removal of a blog to/from the user's reading list.

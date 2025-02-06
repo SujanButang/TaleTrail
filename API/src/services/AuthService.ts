@@ -1,14 +1,14 @@
 import { UserModel, findUserByEmail } from "../models/UserModel";
 import bcrypt from "bcrypt";
-import RandGenerator from "../utils/randGenerator";
+import RandGenerator from "../utils/RandGenerator";
 import {
   ILoginMessageResponse,
   IMessageResponse,
 } from "../interfaces/responseInterface";
-import { sendMail } from "./nodemailer";
-import NotFoundError from "../errors/notFoundError";
-import NotAcceptableError from "../errors/notAcceptableError";
-import BadRequestError from "../errors/badRequestError";
+import { sendMail } from "./Nodemailer";
+import NotFoundError from "../errors/NotFoundError";
+import NotAcceptableError from "../errors/NotAcceptableError";
+import BadRequestError from "../errors/BadRequestError";
 import jwt from "jsonwebtoken";
 import { ACCESS_TOKEN_EXPIRY, REFRESH_TOKEN_EXPIRY } from "../constants/jwt";
 import { TokenBlockModel } from "../models/TokenBlockModel";

@@ -5,7 +5,7 @@ import {
   handleUserRegistration,
   handleVerifyEmail,
   handleVerifyOTP,
-} from "../controllers/authController";
+} from "../controllers/AuthController";
 import { validateReqBody } from "../middlewares/validator";
 import {
   emailSchema,

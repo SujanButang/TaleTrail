@@ -1,5 +1,5 @@
-import BaseError from "./baseError";
+import BaseError from "./BaseError";
 
-class UnauthenticatedError extends BaseError {}
+class UnauthenticatedError extends BaseError { }
 
 export default UnauthenticatedError;

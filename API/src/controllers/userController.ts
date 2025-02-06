@@ -5,7 +5,7 @@ import {
   getUsers,
   updateUser,
 } from "../services/userService";
-import UnauthenticatedError from "../errors/unAuthenticatedError";
+import UnauthenticatedError from "../errors/UnauthenticatedError";
 import { PaginationQuery } from "../interfaces/pagination";
 
 /**

@@ -8,8 +8,8 @@ export const sendMail = (params: { email: string; otp: number }) => {
   const transporter = createTransport({
     service: "gmail",
     auth: {
-      user: "",
-      pass: "",
+      user: process.env.NODEMAILER_USER,
+      pass: process.env.NODEMAILER_PASS,
     },
   });
 

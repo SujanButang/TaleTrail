@@ -11,7 +11,7 @@ import {
   registerUser,
   verifyOTP,
   verifyUserEmail,
-} from "../services/authService";
+} from "../services/AuthService";
 
 /**
  * Handles the verification of a user's email address.

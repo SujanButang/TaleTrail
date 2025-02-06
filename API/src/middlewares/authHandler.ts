@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import UnauthenticatedError from "../errors/unAuthenticatedError";
-import NotAcceptableError from "../errors/notAcceptableError";
+import UnauthenticatedError from "../errors/UnauthenticatedError";
+import NotAcceptableError from "../errors/NotAcceptableError";
 import { accessBlacklisted } from "../models/TokenBlockModel";
 
 // Declare an interface to extend the Request interface

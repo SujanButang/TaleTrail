@@ -7,7 +7,7 @@ import {
   getBlogById,
   getUserBlog,
 } from "../services/blogService";
-import UnauthenticatedError from "../errors/unAuthenticatedError";
+import UnauthenticatedError from "../errors/UnauthenticatedError";
 import { getTopicId, topicExists } from "../models/TopicModel";
 import { addTopic } from "../services/topicService";
 import { PaginationQuery } from "../interfaces/pagination";

@@ -1,4 +1,4 @@
-import NotFoundError from "../errors/notFoundError";
+import NotFoundError from "../errors/NotFoundError";
 import { IBlog } from "../interfaces/blogInterface";
 import { PaginationQuery } from "../interfaces/pagination";
 import { IMessageResponse } from "../interfaces/responseInterface";

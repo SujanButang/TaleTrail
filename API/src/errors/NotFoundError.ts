@@ -1,5 +1,5 @@
-import BaseError from "./baseError";
+import BaseError from "./BaseError";
 
-class NotFoundError extends BaseError {}
+class NotFoundError extends BaseError { }
 
 export default NotFoundError;
